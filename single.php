@@ -27,10 +27,12 @@ $_ar_schema = [
     'datePublished'  => get_the_date( 'c' ),
     'dateModified'   => get_the_modified_date( 'c' ),
     'author'         => [ '@id' => home_url( '/' ) . '#amber-randhawa' ],
-    'articleSection' => $cat_name ? $cat_name : '',
+    'articleSection' => $cat_name ? $cat_name : 'Blog',
+    'publisher'      => [ '@id' => home_url( '/' ) . '#agent' ],
     'mainEntityOfPage' => [ '@type' => 'WebPage', '@id' => get_permalink() ],
 ];
 if ( $feat_img ) { $_ar_schema['image'] = $feat_img; }
+elseif ( function_exists( 'ar_get_portrait_url' ) && ar_get_portrait_url() ) { $_ar_schema['image'] = ar_get_portrait_url(); }
 
 $ar_writing = function_exists( 'ar_is_writing' ) && ar_is_writing();
 $trail = [
@@ -50,7 +52,7 @@ $trail[] = [ 'label' => get_the_title() ];
       <h1 class="lr-disp"><?php the_title(); ?></h1>
       <span class="lr-mark" aria-hidden="true"></span>
       <p class="lr-lede">
-        <?php echo esc_html( get_the_date( 'F j, Y' ) ); ?>
+        <?php echo esc_html( get_the_date( 'F j, Y' ) ); ?><?php if ( get_the_modified_date( 'Ymd' ) > get_the_date( 'Ymd' ) ) : ?> &middot; Updated <?php echo esc_html( get_the_modified_date( 'F j, Y' ) ); ?><?php endif; ?>
         <?php if ( $cat_name ) : ?> &middot; <?php echo esc_html( $cat_name ); ?><?php endif; ?>
       </p>
     </div>
@@ -69,8 +71,21 @@ $trail[] = [ 'label' => get_the_title() ];
           <?php the_content(); ?>
         </div>
 
-        <?php if ( has_tag() ) : ?>
-          <p class="lr-note"><b>Filed under</b><?php echo get_the_tag_list( '', ', ' ); ?></p>
+        <?php
+        /* Hub link + related posts. The hub is the page this post supports,
+           so the two never compete for the same search. */
+        $ar_hubs = function_exists( 'ar_post_hubs' ) ? ar_post_hubs() : [];
+        $ar_me   = get_post_field( 'post_name' );
+        if ( ! $ar_writing && isset( $ar_hubs[ $ar_me ] ) ) :
+            $ar_hub = $ar_hubs[ $ar_me ][0];
+            $ar_rel = ar_published_links( $ar_hubs[ $ar_me ][1], 3 ); ?>
+          <p class="lr-note"><b>Start here</b><a href="<?php echo esc_url( home_url( $ar_hub[0] ) ); ?>"><?php echo esc_html( $ar_hub[1] ); ?></a></p>
+          <?php if ( $ar_rel ) : ?>
+            <p class="lr-note"><b>Keep reading</b><?php
+              echo implode( ' &middot; ', array_map( function ( $l ) {
+                  return '<a href="' . esc_url( $l[0] ) . '">' . esc_html( $l[1] ) . '</a>';
+              }, $ar_rel ) ); ?></p>
+          <?php endif; ?>
         <?php endif; ?>
       </div>
 
@@ -78,16 +93,17 @@ $trail[] = [ 'label' => get_the_title() ];
         <div class="lr-aside-block">
           <span class="lr-aside-h">Written by</span>
           <ul class="lr-aside-list">
-            <li><b>Amber Randhawa</b>Keller Williams Realty Cityside. Metro Atlanta and northwest Georgia.</li>
-            <li><a href="<?php echo esc_url( home_url( '/about' ) ); ?>">More about me</a></li>
+            <li><b>Amber Randhawa</b>Realtor, Keller Williams Realty Cityside. GA license #453822. Born and raised in Paulding County.</li>
+            <li><a href="tel:<?php echo esc_attr( AR_PHONE_E164 ); ?>"><?php echo esc_html( AR_PHONE ); ?></a></li>
+            <li><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>">More about me</a></li>
           </ul>
         </div>
         <div class="lr-aside-block">
           <span class="lr-aside-h">Worth reading</span>
           <ul class="lr-aside-list">
-            <li><a href="<?php echo esc_url( home_url( '/commuting-to-atlanta' ) ); ?>">How long is the drive to Atlanta?</a></li>
-            <li><a href="<?php echo esc_url( home_url( '/property-taxes' ) ); ?>">Property taxes, in plain English</a></li>
-            <li><a href="<?php echo esc_url( home_url( '/communities' ) ); ?>">All the towns I work</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/commuting-to-atlanta/' ) ); ?>">How long is the drive to Atlanta?</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/property-taxes/' ) ); ?>">Property taxes, in plain English</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/communities/' ) ); ?>">All the towns I work</a></li>
           </ul>
         </div>
       </aside>

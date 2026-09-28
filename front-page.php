@@ -81,7 +81,7 @@ $drive_max = 90;
   <!-- ══════ 01 · HERO — full-bleed reel ══════ -->
   <section class="lr-hero-fs">
     <?php if ( $p_reel ) : ?>
-      <video class="lr-hero-bg lr-hero-reel" autoplay muted loop playsinline preload="auto"
+      <video class="lr-hero-bg lr-hero-reel" autoplay muted loop playsinline preload="metadata"
              poster="<?php echo esc_url( $p_poster ); ?>" aria-hidden="true" tabindex="-1">
         <source src="<?php echo esc_url( $p_reel ); ?>" type="video/mp4">
       </video>
@@ -97,7 +97,7 @@ $drive_max = 90;
         <p>I grew up on a remote 2.5 mile dirt road that connected one middle of nowhere to another. When people ask me where I’m from, my answer depends largely on where THEY are from. If you’re local enough to have heard of it, I’ll claim Draketown because that’s almost accurate. If you’re Southern cityfolk, I might say Dallas, or Rockmart, or Villa Rica, or Bremen. If you’re from Atlanta I’ll ask you if you’ve heard of Carrollton, and if you’re a Yankee I’ll just say Atlanta and be done with it! That’s the way it goes when you grow up so far out in the sticks the land doesn’t even have a name.</p>
         <p>There’s no crossroads in Polk, Paulding or Haralson County that I can’t tell you some sort of story about, and more times than not it will even be true. I can tell you which backroads will get you somewhere faster, and which roads are prone to flooding out in the spring storms. I know which little downtown areas tend to be speed traps, and which gas station parking lots have the best boiled peanuts. I can even tell you which bent trees mark the direction to a water source, because according to local legends, the Cherokee marked them that way before they were forced off this land nearly 200 years ago.</p>
         <div class="lr-actions">
-          <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="lr-btn">Come sit a spell</a>
+          <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="lr-btn">Come sit a spell</a>
           <a href="<?php echo esc_url( home_url( '/writing/' ) ); ?>" class="lr-btn lr-btn--ghost">Read the writing</a>
         </div>
         <span class="lr-tag">&ldquo;I can&rsquo;t wait to take you home.&rdquo;</span>
@@ -297,7 +297,7 @@ $drive_max = 90;
         <p>I did background investigations, technical writing and anti-money laundering investigations for a Big Four firm, in roles so hard to explain that my own family could not tell you what I did. I was everyone&rsquo;s Chandler Bing. Then I got laid off, and instead of updating my resume I finally did what my husband had been telling me to do for two decades.</p>
         <p class="lr-pull">I am a writer, a genealogy obsessive, and a person who knows which cemeteries are worth walking. Real estate is how I fund the rest of it!</p>
         <div class="lr-actions">
-          <a href="<?php echo esc_url( home_url( '/about' ) ); ?>" class="lr-btn lr-btn--ghost">Read the whole story</a>
+          <a href="<?php echo esc_url( home_url( '/about/' ) ); ?>" class="lr-btn lr-btn--ghost">Read the whole story</a>
         </div>
       </div>
     </div>
@@ -311,7 +311,7 @@ $drive_max = 90;
         <span class="lr-mark" aria-hidden="true"></span>
         <p>Slip your shoes off and pour your own glass of tea. Tell me what you are trying to do and I will tell you honestly whether I can help, and what it is going to take.</p>
         <div class="lr-actions">
-          <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="lr-btn lr-btn--go">Start a conversation</a>
+          <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="lr-btn lr-btn--go">Start a conversation</a>
           <a href="https://amberrandhawa.kw.com" class="lr-btn lr-btn--ghost" rel="noopener">See my listings</a>
         </div>
       </div>

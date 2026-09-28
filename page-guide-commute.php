@@ -68,7 +68,7 @@ $faq_schema = [
 
 $trail = [
     [ 'label' => 'Home', 'url' => home_url( '/' ) ],
-    [ 'label' => 'Guides', 'url' => home_url( '/guides' ) ],
+    [ 'label' => 'Guides', 'url' => home_url( '/guides/' ) ],
     [ 'label' => 'Commuting to Atlanta' ],
 ];
 ?>
@@ -139,11 +139,12 @@ $trail = [
             <li><b>About 30 min</b>Hiram to the Marietta Square</li>
           </ul>
         </div>
+        <?php if ( function_exists( 'ar_render_page_posts' ) ) { ar_render_page_posts( 'commuting-to-atlanta' ); } ?>
         <div class="lr-aside-block">
           <span class="lr-aside-h">Next</span>
           <ul class="lr-aside-list">
-            <li><a href="<?php echo esc_url( home_url( '/property-taxes' ) ); ?>">Property taxes, in plain English</a></li>
-            <li><a href="<?php echo esc_url( home_url( '/communities' ) ); ?>">All the towns I work</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/property-taxes/' ) ); ?>">Property taxes, in plain English</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/communities/' ) ); ?>">All the towns I work</a></li>
           </ul>
         </div>
       </aside>

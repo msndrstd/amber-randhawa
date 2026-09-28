@@ -38,14 +38,14 @@
             <nav aria-label="Footer navigation">
                 <ul class="footer-links">
                     <li><a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a></li>
-                    <li><a href="<?php echo esc_url( home_url( '/about' ) ); ?>">About</a></li>
+                    <li><a href="<?php echo esc_url( home_url( '/about/' ) ); ?>">About</a></li>
                     <?php $ar_guides_page = get_page_by_path( 'guides' ); ?>
                     <?php if ( $ar_guides_page && 'publish' === $ar_guides_page->post_status ) : ?>
                     <li><a href="<?php echo esc_url( get_permalink( $ar_guides_page ) ); ?>">Guides</a></li>
                     <?php endif; ?>
                     <li><a href="<?php echo esc_url( home_url( '/writing/' ) ); ?>">Writing</a></li>
                     <li><a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">Blog</a></li>
-                    <li><a href="<?php echo esc_url( home_url( '/contact' ) ); ?>">Contact</a></li>
+                    <li><a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>">Contact</a></li>
                     <li><a href="<?php echo esc_url( 'https://amberrandhawa.kw.com' ); ?>" target="_blank" rel="noopener">Listings</a></li>
                 </ul>
             </nav>
@@ -92,7 +92,7 @@
                 <div class="compliance-text">
                     <p>Each Keller Williams Realty office is independently owned and operated.</p>
                     <p>
-                        Amber Randhawa &middot; Keller Williams Realty Cityside &middot; License #453822
+                        Amber Randhawa &middot; Cell <a href="tel:<?php echo esc_attr( AR_PHONE_E164 ); ?>"><?php echo esc_html( AR_PHONE ); ?></a> &middot; <?php echo esc_html( AR_OFFICE ); ?> &middot; Office <a href="tel:<?php echo esc_attr( AR_OFFICE_PHONE_E164 ); ?>"><?php echo esc_html( AR_OFFICE_PHONE ); ?></a> &middot; License #453822
                         &nbsp;&nbsp;&bull;&nbsp;&nbsp;
                         Information deemed reliable but not guaranteed.
                     </p>

@@ -114,7 +114,7 @@ setTimeout(function () {
             </a>
 
             <a href="<?php echo esc_url( home_url( '/' ) ); ?>">Home</a>
-            <a href="<?php echo esc_url( home_url( '/about' ) ); ?>">About</a>
+            <a href="<?php echo esc_url( home_url( '/about/' ) ); ?>">About</a>
 
             <div class="nav-item nav-has-dropdown">
                 <button class="nav-dropdown-trigger" aria-expanded="false" aria-haspopup="true">
@@ -124,20 +124,20 @@ setTimeout(function () {
                     <div class="nav-dropdown-inner">
                         <div class="nav-dropdown-col">
                             <span class="nav-dropdown-label">Cities</span>
-                            <a href="<?php echo esc_url( home_url( '/dallas-ga-real-estate' ) ); ?>" role="menuitem">Dallas</a>
-                            <a href="<?php echo esc_url( home_url( '/hiram-ga-real-estate' ) ); ?>" role="menuitem">Hiram</a>
-                            <a href="<?php echo esc_url( home_url( '/bremen-ga-real-estate' ) ); ?>" role="menuitem">Bremen</a>
-                            <a href="<?php echo esc_url( home_url( '/rockmart-ga-real-estate' ) ); ?>" role="menuitem">Rockmart</a>
-                            <a href="<?php echo esc_url( home_url( '/villa-rica-ga-real-estate' ) ); ?>" role="menuitem">Villa Rica</a>
+                            <a href="<?php echo esc_url( home_url( '/dallas-ga-real-estate/' ) ); ?>" role="menuitem">Dallas</a>
+                            <a href="<?php echo esc_url( home_url( '/hiram-ga-real-estate/' ) ); ?>" role="menuitem">Hiram</a>
+                            <a href="<?php echo esc_url( home_url( '/bremen-ga-real-estate/' ) ); ?>" role="menuitem">Bremen</a>
+                            <a href="<?php echo esc_url( home_url( '/rockmart-ga-real-estate/' ) ); ?>" role="menuitem">Rockmart</a>
+                            <a href="<?php echo esc_url( home_url( '/villa-rica-ga-real-estate/' ) ); ?>" role="menuitem">Villa Rica</a>
                         </div>
                         <div class="nav-dropdown-col">
                             <span class="nav-dropdown-label">Counties</span>
-                            <a href="<?php echo esc_url( home_url( '/paulding-county-ga-real-estate' ) ); ?>" role="menuitem">Paulding County</a>
-                            <a href="<?php echo esc_url( home_url( '/haralson-county-ga-real-estate' ) ); ?>" role="menuitem">Haralson County</a>
-                            <a href="<?php echo esc_url( home_url( '/carroll-county-ga-real-estate' ) ); ?>" role="menuitem">Carroll County</a>
-                            <a href="<?php echo esc_url( home_url( '/polk-county-ga-real-estate' ) ); ?>" role="menuitem">Polk County</a>
+                            <a href="<?php echo esc_url( home_url( '/paulding-county-ga-real-estate/' ) ); ?>" role="menuitem">Paulding County</a>
+                            <a href="<?php echo esc_url( home_url( '/haralson-county-ga-real-estate/' ) ); ?>" role="menuitem">Haralson County</a>
+                            <a href="<?php echo esc_url( home_url( '/carroll-county-ga-real-estate/' ) ); ?>" role="menuitem">Carroll County</a>
+                            <a href="<?php echo esc_url( home_url( '/polk-county-ga-real-estate/' ) ); ?>" role="menuitem">Polk County</a>
                             <div class="nav-dropdown-divider"></div>
-                            <a href="<?php echo esc_url( home_url( '/communities' ) ); ?>" role="menuitem" class="nav-dropdown-all">View all communities &rarr;</a>
+                            <a href="<?php echo esc_url( home_url( '/communities/' ) ); ?>" role="menuitem" class="nav-dropdown-all">View all communities &rarr;</a>
                         </div>
                     </div>
                 </div>
@@ -187,8 +187,8 @@ setTimeout(function () {
             <?php endif; ?>
             <a href="<?php echo esc_url( home_url( '/writing/' ) ); ?>">Writing</a>
             <a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">Blog</a>
-            <a href="<?php echo esc_url( home_url( '/faq' ) ); ?>">FAQ</a>
-            <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="nav-cta">Let's talk</a>
+            <a href="<?php echo esc_url( home_url( '/faq/' ) ); ?>">FAQ</a>
+            <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="nav-cta">Let's talk</a>
 
             <?php /* Mobile panel only. URLs match the sameAs list in the
                      JSON-LD in functions.php -- keep the two in step. */ ?>

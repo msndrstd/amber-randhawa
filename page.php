@@ -100,7 +100,7 @@ $has_band = $is_place && file_exists( get_template_directory() . '/assets/images
         <div class="lr-aside-block">
           <?php get_template_part( 'template-parts/slot', null, [
               'file'  => 'place-' . $slug . '.jpg',
-              'alt'   => $is_place ? $place . ', Georgia' : get_the_title(),
+              'alt'   => $is_place ? 'A scene from ' . $place . ', Georgia' : get_the_title(),
               'label' => $is_place ? $place : 'Photo',
           ] ); ?>
         </div>
@@ -108,32 +108,27 @@ $has_band = $is_place && file_exists( get_template_directory() . '/assets/images
         <?php if ( $is_place ) :
           $trail_up = function_exists( 'ar_crumb_trail' ) ? ar_crumb_trail() : [];
           $parent   = ( count( $trail_up ) > 2 ) ? $trail_up[ count( $trail_up ) - 2 ] : null;
-          $siblings = get_pages( [ 'number' => 60, 'post_status' => 'publish' ] );
+          $ar_near = function_exists( 'ar_nearby_places' ) ? ar_nearby_places( $slug ) : [];
           ?>
+          <?php if ( $ar_near ) : ?>
           <div class="lr-aside-block">
             <span class="lr-aside-h">Nearby</span>
             <ul class="lr-aside-list">
-              <?php
-              $shown = 0;
-              foreach ( $siblings as $sib ) {
-                  if ( $sib->ID === get_the_ID() ) { continue; }
-                  if ( ! preg_match( '/-ga-real-estate$/', $sib->post_name ) ) { continue; }
-                  if ( $shown >= 6 ) { break; }
-                  $shown++;
-                  echo '<li><a href="' . esc_url( get_permalink( $sib ) ) . '">'
-                     . esc_html( str_replace( [ 'Real Estate in ', ', Georgia' ], '', get_the_title( $sib ) ) )
-                     . '</a></li>';
-              }
-              ?>
+              <?php foreach ( $ar_near as $n ) : ?>
+                <li><a href="<?php echo esc_url( $n[0] ); ?>"><?php echo esc_html( $n[1] ); ?></a></li>
+              <?php endforeach; ?>
             </ul>
           </div>
+          <?php endif; ?>
         <?php endif; ?>
+
+        <?php if ( function_exists( 'ar_render_page_posts' ) ) { ar_render_page_posts( $slug ); } ?>
 
         <div class="lr-aside-block">
           <span class="lr-aside-h">Worth reading</span>
           <ul class="lr-aside-list">
-            <li><a href="<?php echo esc_url( home_url( '/commuting-to-atlanta' ) ); ?>">How long is the drive to Atlanta?</a></li>
-            <li><a href="<?php echo esc_url( home_url( '/property-taxes' ) ); ?>">Property taxes, in plain English</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/commuting-to-atlanta/' ) ); ?>">How long is the drive to Atlanta?</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/property-taxes/' ) ); ?>">Property taxes, in plain English</a></li>
           </ul>
         </div>
 

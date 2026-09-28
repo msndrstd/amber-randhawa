@@ -20,7 +20,7 @@ get_header();
 
 $trail = [
     [ 'label' => 'Home', 'url' => home_url( '/' ) ],
-    [ 'label' => 'Guides', 'url' => home_url( '/guides' ) ],
+    [ 'label' => 'Guides', 'url' => home_url( '/guides/' ) ],
     [ 'label' => 'Property taxes' ],
 ];
 ?>
@@ -61,11 +61,12 @@ $trail = [
               'file' => 'guide-taxes.jpg', 'label' => 'A county courthouse', 'alt' => 'County courthouse, northwest Georgia',
           ] ); ?>
         </div>
+        <?php if ( function_exists( 'ar_render_page_posts' ) ) { ar_render_page_posts( 'property-taxes' ); } ?>
         <div class="lr-aside-block">
           <span class="lr-aside-h">Next</span>
           <ul class="lr-aside-list">
-            <li><a href="<?php echo esc_url( home_url( '/commuting-to-atlanta' ) ); ?>">How long is the drive to Atlanta?</a></li>
-            <li><a href="<?php echo esc_url( home_url( '/communities' ) ); ?>">All the towns I work</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/commuting-to-atlanta/' ) ); ?>">How long is the drive to Atlanta?</a></li>
+            <li><a href="<?php echo esc_url( home_url( '/communities/' ) ); ?>">All the towns I work</a></li>
           </ul>
         </div>
       </aside>

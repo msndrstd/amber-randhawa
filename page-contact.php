@@ -62,6 +62,14 @@ $trail = [
 
         <dl class="lr-facts">
           <div>
+            <dt>Cell (call or text)</dt>
+            <dd><a href="tel:<?php echo esc_attr( AR_PHONE_E164 ); ?>"><?php echo esc_html( AR_PHONE ); ?></a></dd>
+          </div>
+          <div>
+            <dt>Office</dt>
+            <dd><?php echo esc_html( AR_OFFICE ); ?><br><a href="tel:<?php echo esc_attr( AR_OFFICE_PHONE_E164 ); ?>"><?php echo esc_html( AR_OFFICE_PHONE ); ?></a></dd>
+          </div>
+          <div>
             <dt>Response time</dt>
             <dd>Within one business day, usually a lot faster.</dd>
           </div>

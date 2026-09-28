@@ -290,7 +290,7 @@ function ar_crumb_trail( $post = null ) {
         'villa-rica' => 'carroll',
     ];
 
-    $communities = [ 'label' => 'Communities', 'url' => home_url( '/communities' ) ];
+    $communities = [ 'label' => 'Communities', 'url' => home_url( '/communities/' ) ];
 
     // A county page
     foreach ( $counties as $key => $label ) {
@@ -435,16 +435,16 @@ function ar_get_portrait_url() {
    GEO / SEO — META DESCRIPTIONS
    (No SEO plugin installed; hand-written per key template.)
    ============================================================ */
-function ar_meta_description() {
+function ar_get_meta_description() {
     $desc = '';
 
     /* Meta descriptions from "Amber Randhawa - Full Website Content (v2) DUTCH",
        as edited by Amber (pulled in 2026-09-28). Keyed by page slug so the
        copy lives in one place instead of in each page's excerpt field. */
     $by_slug = [
-        'about'                          => "Meet Amber Randhawa. Realtor with Keller Williams Realty Cityside, writer, local historian, and lifelong resident of rural northwest Georgia. License #453822.",
+        'about'                          => "Meet Amber Randhawa: Realtor with Keller Williams Realty Cityside, writer, local historian and lifelong northwest Georgia local. License #453822.",
         'contact'                        => "Get in touch with Amber Randhawa about buying or selling in metro Atlanta and northwest Georgia. She answers her own phone.",
-        'faq'                            => "Real questions, real answers on buying and selling in metro Atlanta and northwest Georgia, from Amber Randhawa at Keller Williams Realty Cityside. Plus a few things people were too polite to ask.",
+        'faq'                            => "Real answers on buying and selling in metro Atlanta and northwest Georgia from Realtor Amber Randhawa. Plus a few things people were too polite to ask.",
         'communities'                    => "Northwest Georgia and metro Atlanta real estate. Dallas, Hiram, Draketown, Bremen, Buchanan, Tallapoosa, Cedartown, Rockmart, Temple, Villa Rica and Carrollton.",
         'paulding-county-ga-real-estate' => "Amber Randhawa was born and raised in Paulding County and works it as a Keller Williams agent. Dallas, Hiram and all the surrounding backroads.",
         'haralson-county-ga-real-estate' => "Real estate in Haralson County, GA with Amber Randhawa. Bremen, Buchanan, Tallapoosa and the rural areas in between.",
@@ -463,13 +463,15 @@ function ar_meta_description() {
     ];
 
     if ( is_front_page() ) {
-        $desc = "Amber Randhawa is a real estate agent and lifelong Northwest Georgia local. She covers metro Atlanta and northwest Georgia, including Cobb, Paulding, Haralson, Carroll, and Polk counties. Real stories, real local knowledge, no template agent website.";
+        $desc = "Amber Randhawa is a Realtor and lifelong northwest Georgia local serving Paulding, Haralson, Carroll, Polk and Cobb counties. Real stories, real local knowledge.";
     } elseif ( is_home() && isset( $by_slug['blog'] ) ) {
         $desc = $by_slug['blog'];
     } elseif ( is_category( 'writing' ) ) {
         $desc = $by_slug['writing'];
     } elseif ( is_page() && isset( $by_slug[ get_post_field( 'post_name', get_queried_object_id() ) ] ) ) {
         $desc = $by_slug[ get_post_field( 'post_name', get_queried_object_id() ) ];
+    } elseif ( is_singular( 'post' ) && function_exists( 'ar_post_meta_map' ) && isset( ar_post_meta_map()[ get_post_field( 'post_name', get_queried_object_id() ) ] ) ) {
+        $desc = ar_post_meta_map()[ get_post_field( 'post_name', get_queried_object_id() ) ];
     } elseif ( is_singular( 'post' ) ) {
         $excerpt = get_the_excerpt();
         $desc    = $excerpt ? wp_trim_words( wp_strip_all_tags( $excerpt ), 30, '' ) : get_the_title();
@@ -478,6 +480,10 @@ function ar_meta_description() {
         $desc    = $excerpt ? wp_trim_words( wp_strip_all_tags( $excerpt ), 30, '' ) : '';
     }
 
+    return $desc;
+}
+function ar_meta_description() {
+    $desc = ar_get_meta_description();
     if ( $desc ) {
         echo '<meta name="description" content="' . esc_attr( $desc ) . '">' . "\n";
     }
@@ -487,12 +493,12 @@ add_action( 'wp_head', 'ar_meta_description', 1 );
 /* ============================================================
    GEO / SEO — STRUCTURED DATA (JSON-LD)
    Person + RealEstateAgent site-wide; BlogPosting added per-post in single.php.
-   NOTE: telephone/office address deliberately omitted — not yet confirmed
-   as Amber's direct line vs. a shared KW market-center number. Add once confirmed.
+   Phone is Amber's direct line (confirmed by Gogi 2026-09-28). Address is the
+   Keller Williams Realty Cityside office, which matches her KW profile.
    ============================================================ */
 function ar_schema_json_ld() {
     $home      = home_url( '/' );
-    $about_url = home_url( '/about' );
+    $about_url = home_url( '/about/' );
     $portrait  = ar_get_portrait_url();
     $person_id = $home . '#amber-randhawa';
 
@@ -523,14 +529,26 @@ function ar_schema_json_ld() {
         ],
         [
             '@type'        => 'RealEstateAgent',
+            '@id'          => $home . '#agent',
             'name'         => 'Amber Randhawa',
+            'telephone'    => AR_PHONE_E164,
+            'address'      => [
+                '@type'           => 'PostalAddress',
+                'streetAddress'   => '3350 Atlanta Rd SE',
+                'addressLocality' => 'Smyrna',
+                'addressRegion'   => 'GA',
+                'postalCode'      => '30080',
+                'addressCountry'  => 'US',
+            ],
             'url'          => $home,
             'image'        => $portrait,
             'description'  => 'Real estate agent serving metro Atlanta and northwest Georgia, including Cobb, Paulding, Haralson, Carroll, and Polk counties.',
             'areaServed'   => $area_served,
             'memberOf'     => [
-                '@type' => 'Organization',
-                'name'  => 'Keller Williams Realty Cityside',
+                '@type'     => 'RealEstateAgent',
+                'name'      => 'Keller Williams Realty Cityside',
+                'telephone' => '+1-770-874-6200',
+                'url'       => 'https://locations.kw.com/location/372',
             ],
             'employee'     => [ '@id' => $person_id ],
             'sameAs'       => $same_as,
@@ -548,6 +566,8 @@ function ar_schema_json_ld() {
 
     if ( $portrait ) {
         $graph[0]['image'] = $portrait;
+    } else {
+        unset( $graph[1]['image'] );
     }
 
     $schema = [
@@ -600,4 +620,264 @@ add_action( 'pre_get_posts', function ( $q ) {
 /** True when a post (default: current) is Amber's own writing. */
 function ar_is_writing( $post = null ) {
     return ar_writing_cat_id() && has_category( ar_writing_cat_id(), $post );
+}
+
+/* ============================================================
+   SEO / GEO PASS (2026-09-28)
+   Titles, post meta descriptions, Open Graph, robots for thin
+   archives, sitemap cleanup, one agent entity, related content,
+   nearby places. Everything keyed by slug so it survives DB pushes.
+   ============================================================ */
+
+define( 'AR_PHONE', '770-634-3291' );
+define( 'AR_PHONE_E164', '+1-770-634-3291' );
+define( 'AR_OFFICE', 'Keller Williams Realty Cityside, 3350 Atlanta Rd SE, Smyrna, GA 30080' );
+define( 'AR_OFFICE_PHONE', '770-874-6200' );
+define( 'AR_OFFICE_PHONE_E164', '+1-770-874-6200' );
+
+/** Search descriptions for the blog posts (written with each post). */
+function ar_post_meta_map() {
+    return [
+        'living-in-dallas-ga' => 'Living in Dallas, GA (Paulding County, not Texas): the historic square, US 278 traffic, growth, trails, schools and real commute times, from a local.',
+        'paulding-county-commute-to-atlanta' => 'Paulding County commute to Atlanta, measured: real drive times from Hiram and Dallas, GA, why no interstate matters, the Cobb County pull and Xpress 476.',
+        'paulding-county-property-taxes' => 'Paulding County property taxes in plain English: the 40% assessment, millage, homestead, HB 581 (county in, schools out), SB 33 and the 2026 relief grant.',
+        'buying-land-in-paulding-county-ga' => 'Buying land in Paulding County, GA? What to check first: septic soil reports, wells, zoning, surveys, easements, utilities, timber and conservation use.',
+        'paulding-county-homestead-exemption' => 'The Paulding County homestead exemption: who qualifies, the April 1 deadline, how to file, what it saves, senior exemptions and the HB 581 floating cap.',
+        'living-in-hiram-ga' => 'Living in Hiram GA: a Paulding County local on the downtown, shopping on 278, the Xpress bus and drive to Atlanta, and Silver Comet Trail access.',
+        'silver-comet-trail-paulding-county' => 'Silver Comet Trail Paulding County guide: trailheads from Hiram to McPherson Church Road, the Pumpkinvine Creek Trestle, and the train behind the name.',
+        'paulding-county-schools-school-zone-lookup' => 'Paulding County schools are assigned by address. How to look up any home\'s school zone, check state report cards, and how school choice works.',
+        'moving-to-paulding-county-ga' => 'Moving to Paulding County GA? Your first-month checklist: water, power, trash, Georgia license and tags within 30 days, voting and homestead exemption.',
+        'picketts-mill-battlefield-civil-war-paulding-county' => 'Pickett\'s Mill Battlefield and the Civil War in Paulding County: New Hope Church, Pickett\'s Mill and Dallas, Georgia in May 1864, and what to see today.',
+        'unincorporated-paulding-county-vs-city-limits' => 'Unincorporated Paulding County vs Dallas or Hiram city limits: who handles zoning, police, water and taxes, and why your mailing address can fool you.',
+        'septic-inspection-paulding-county-well-water' => 'Septic inspection in Paulding County, GA: how septic tanks work, where to find permit records, well water testing, and what to ask a seller before closing.',
+        'new-construction-homes-paulding-county' => 'New construction homes in Paulding County: new build vs resale, builder contracts, pre-drywall inspections, warranties, HOAs and low appraisals, explained.',
+        'paulding-county-hoa-homes-without-hoa' => 'Paulding County HOA or homes without an HOA? How to find recorded covenants, what Georgia\'s Property Owners\' Association Act means, and what to read first.',
+        'selling-inherited-house-paulding-county' => 'Selling an inherited house in Paulding County: Georgia probate, executor authority, year\'s support, heirs property, and the house full of family stuff.',
+        'draketown-ga-rural-land-western-paulding-county' => 'Buying in Draketown GA or rural land in western Paulding County? Wells, septic, internet, long driveways and county lines, from someone who grew up there.',
+        'paulding-county-flood-zone-check-georgia' => 'Is that house in a Paulding County flood zone? How to check any Georgia address with FEMA and state maps, what zones mean and flood insurance basics.',
+        'usda-loan-paulding-county' => 'Can you use a USDA loan in Paulding County? How the no-down-payment rural loan works, how to check an address on USDA\'s map and why eligibility changes.',
+        'downtown-dallas-ga-history' => 'Downtown Dallas GA history, Paulding County seat (not Texas): the 1852 founding, its name, three courthouses, the 1864 battle and the square today.',
+        'paulding-county-population-growth' => 'Paulding County population growth by the census numbers, 1990 to 2025, why it happened and what it means for buyers: traffic, schools and rural pockets.',
+    ];
+}
+
+/** Title tags, keyed by page slug. Posts keep "Post title – Amber Randhawa". */
+add_filter( 'pre_get_document_title', function ( $title ) {
+    $map = [
+        'about'                          => 'About Amber Randhawa, Realtor | Keller Williams Realty Cityside',
+        'contact'                        => 'Contact Amber Randhawa | Northwest Georgia Realtor',
+        'faq'                            => 'Real Estate FAQ, Northwest Georgia | Amber Randhawa',
+        'communities'                    => 'Northwest Georgia Communities | Amber Randhawa, Realtor',
+        'paulding-county-ga-real-estate' => 'Paulding County, GA Real Estate | Amber Randhawa',
+        'haralson-county-ga-real-estate' => 'Haralson County, GA Real Estate | Amber Randhawa',
+        'carroll-county-ga-real-estate'  => 'Carroll County, GA Real Estate | Amber Randhawa',
+        'polk-county-ga-real-estate'     => 'Polk County, GA Real Estate | Amber Randhawa',
+        'dallas-ga-real-estate'          => 'Dallas, GA Real Estate (Paulding County) | Amber Randhawa',
+        'hiram-ga-real-estate'           => 'Hiram, GA Real Estate | Amber Randhawa',
+        'bremen-ga-real-estate'          => 'Bremen, GA Real Estate | Amber Randhawa',
+        'rockmart-ga-real-estate'        => 'Rockmart, GA Real Estate | Amber Randhawa',
+        'villa-rica-ga-real-estate'      => 'Villa Rica, GA Real Estate | Amber Randhawa',
+        'guides'                         => 'Northwest Georgia Buyer Guides | Amber Randhawa',
+        'commuting-to-atlanta'           => 'Commuting to Atlanta from Northwest Georgia, Measured',
+        'property-taxes'                 => 'Georgia Property Taxes in Plain English | Amber Randhawa',
+    ];
+    if ( is_front_page() ) { return 'Amber Randhawa, Realtor | Northwest Georgia & Metro Atlanta'; }
+    if ( is_home() )       { return 'Blog: Paulding County & Northwest Georgia Real Estate | Amber Randhawa'; }
+    if ( is_category( 'writing' ) ) { return 'Writing: Local History & Family Stories | Amber Randhawa'; }
+    if ( is_page() ) {
+        $slug = get_post_field( 'post_name', get_queried_object_id() );
+        if ( isset( $map[ $slug ] ) ) { return $map[ $slug ]; }
+    }
+    return $title;
+} );
+
+/** noindex thin archives (tags, authors, dates, search) but keep following links. */
+add_filter( 'wp_robots', function ( $robots ) {
+    if ( is_tag() || is_author() || is_date() || is_search() ) {
+        $robots['noindex'] = true;
+        $robots['follow']  = true;
+    }
+    return $robots;
+} );
+
+/** Sitemap: no user list (exposes login names), no tag archives. */
+add_filter( 'wp_sitemaps_add_provider', function ( $provider, $name ) {
+    return 'users' === $name ? false : $provider;
+}, 10, 2 );
+add_filter( 'wp_sitemaps_taxonomies', function ( $tax ) {
+    unset( $tax['post_tag'] );
+    return $tax;
+} );
+
+/** Best image for a URL preview: featured, then the page's header band, then her portrait. */
+function ar_share_image() {
+    if ( is_singular() && has_post_thumbnail() ) {
+        return get_the_post_thumbnail_url( null, 'large' );
+    }
+    $dir = get_template_directory() . '/assets/images/';
+    $uri = get_template_directory_uri() . '/assets/images/';
+    if ( is_page() ) {
+        $slug = get_post_field( 'post_name', get_queried_object_id() );
+        foreach ( [ 'band-' . $slug . '.jpg', 'place-' . $slug . '.jpg', 'guide-' . $slug . '.jpg' ] as $f ) {
+            if ( file_exists( $dir . $f ) ) { return $uri . $f; }
+        }
+    }
+    if ( is_front_page() && file_exists( $dir . 'hero-reel-fs-poster.jpg' ) ) {
+        return $uri . 'hero-reel-fs-poster.jpg';
+    }
+    return function_exists( 'ar_get_portrait_url' ) ? ar_get_portrait_url() : '';
+}
+
+/** Canonical-style URL of the current view. */
+function ar_current_url() {
+    if ( is_front_page() ) { return home_url( '/' ); }
+    if ( is_home() )       { return get_permalink( get_option( 'page_for_posts' ) ); }
+    if ( is_singular() )   { return get_permalink(); }
+    if ( is_category() || is_tag() ) { return get_term_link( get_queried_object() ); }
+    return home_url( add_query_arg( [] ) );
+}
+
+/** Open Graph + Twitter card. */
+add_action( 'wp_head', function () {
+    $title = wp_get_document_title();
+    $desc  = function_exists( 'ar_get_meta_description' ) ? ar_get_meta_description() : '';
+    $img   = ar_share_image();
+    $url   = ar_current_url();
+    $type  = is_singular( 'post' ) ? 'article' : 'website';
+    $tags  = [
+        'og:site_name'   => 'Amber Randhawa',
+        'og:locale'      => 'en_US',
+        'og:type'        => $type,
+        'og:title'       => $title,
+        'og:description' => $desc,
+        'og:url'         => is_wp_error( $url ) ? '' : $url,
+        'og:image'       => $img,
+    ];
+    foreach ( $tags as $k => $v ) {
+        if ( $v ) { echo '<meta property="' . esc_attr( $k ) . '" content="' . esc_attr( $v ) . '">' . "\n"; }
+    }
+    if ( 'article' === $type ) {
+        echo '<meta property="article:published_time" content="' . esc_attr( get_the_date( 'c' ) ) . '">' . "\n";
+        echo '<meta property="article:modified_time" content="' . esc_attr( get_the_modified_date( 'c' ) ) . '">' . "\n";
+    }
+    echo '<meta name="twitter:card" content="' . ( $img ? 'summary_large_image' : 'summary' ) . '">' . "\n";
+}, 2 );
+
+/**
+ * One agent entity. The county and city pages carry their own
+ * RealEstateAgent JSON-LD in the post content from an older build;
+ * the site-wide graph in ar_schema_json_ld() is now the single source.
+ * The commute blog post's FAQ markup duplicated the commute guide's.
+ */
+add_filter( 'the_content', function ( $content ) {
+    if ( is_page() && false !== strpos( $content, 'RealEstateAgent' ) ) {
+        $content = preg_replace( '#<script type="application/ld\+json">(?:(?!</script>).)*"RealEstateAgent"(?:(?!</script>).)*</script>#s', '', $content );
+    }
+    if ( is_single( 'paulding-county-commute-to-atlanta' ) ) {
+        $content = preg_replace( '#<script type="application/ld\+json">(?:(?!</script>).)*FAQPage(?:(?!</script>).)*</script>#s', '', $content );
+    }
+    return $content;
+}, 20 );
+
+/* ------------------------------------------------------------
+   RELATED CONTENT
+   Blog post => the hub page it supports, plus sibling posts.
+   Hub pages => the posts that support them. Only published posts
+   are ever linked, so scheduled posts appear as they go live.
+   ------------------------------------------------------------ */
+function ar_post_hubs() {
+    $p = [ '/paulding-county-ga-real-estate/', 'Paulding County real estate' ];
+    return [
+        'living-in-dallas-ga'                                 => [ [ '/dallas-ga-real-estate/', 'Dallas, GA real estate' ], [ 'downtown-dallas-ga-history', 'paulding-county-commute-to-atlanta', 'unincorporated-paulding-county-vs-city-limits' ] ],
+        'paulding-county-commute-to-atlanta'                  => [ [ '/commuting-to-atlanta/', 'The full commute guide, with every town measured' ], [ 'living-in-hiram-ga', 'living-in-dallas-ga', 'paulding-county-population-growth' ] ],
+        'paulding-county-property-taxes'                      => [ [ '/property-taxes/', 'Georgia property taxes, in plain English' ], [ 'paulding-county-homestead-exemption', 'unincorporated-paulding-county-vs-city-limits', 'moving-to-paulding-county-ga' ] ],
+        'buying-land-in-paulding-county-ga'                   => [ $p, [ 'draketown-ga-rural-land-western-paulding-county', 'septic-inspection-paulding-county-well-water', 'usda-loan-paulding-county' ] ],
+        'paulding-county-homestead-exemption'                 => [ [ '/property-taxes/', 'Georgia property taxes, in plain English' ], [ 'paulding-county-property-taxes', 'moving-to-paulding-county-ga', 'unincorporated-paulding-county-vs-city-limits' ] ],
+        'living-in-hiram-ga'                                  => [ [ '/hiram-ga-real-estate/', 'Hiram, GA real estate' ], [ 'paulding-county-commute-to-atlanta', 'silver-comet-trail-paulding-county', 'unincorporated-paulding-county-vs-city-limits' ] ],
+        'silver-comet-trail-paulding-county'                  => [ $p, [ 'living-in-hiram-ga', 'downtown-dallas-ga-history', 'picketts-mill-battlefield-civil-war-paulding-county' ] ],
+        'paulding-county-schools-school-zone-lookup'          => [ $p, [ 'moving-to-paulding-county-ga', 'paulding-county-population-growth', 'new-construction-homes-paulding-county' ] ],
+        'moving-to-paulding-county-ga'                        => [ $p, [ 'paulding-county-homestead-exemption', 'paulding-county-schools-school-zone-lookup', 'paulding-county-commute-to-atlanta' ] ],
+        'picketts-mill-battlefield-civil-war-paulding-county' => [ $p, [ 'downtown-dallas-ga-history', 'silver-comet-trail-paulding-county', 'living-in-dallas-ga' ] ],
+        'unincorporated-paulding-county-vs-city-limits'       => [ $p, [ 'paulding-county-property-taxes', 'living-in-dallas-ga', 'living-in-hiram-ga' ] ],
+        'septic-inspection-paulding-county-well-water'        => [ $p, [ 'buying-land-in-paulding-county-ga', 'draketown-ga-rural-land-western-paulding-county', 'paulding-county-flood-zone-check-georgia' ] ],
+        'new-construction-homes-paulding-county'              => [ $p, [ 'paulding-county-hoa-homes-without-hoa', 'paulding-county-population-growth', 'paulding-county-flood-zone-check-georgia' ] ],
+        'paulding-county-hoa-homes-without-hoa'               => [ $p, [ 'new-construction-homes-paulding-county', 'unincorporated-paulding-county-vs-city-limits', 'moving-to-paulding-county-ga' ] ],
+        'selling-inherited-house-paulding-county'             => [ $p, [ 'paulding-county-property-taxes', 'paulding-county-homestead-exemption', 'septic-inspection-paulding-county-well-water' ] ],
+        'draketown-ga-rural-land-western-paulding-county'     => [ $p, [ 'buying-land-in-paulding-county-ga', 'septic-inspection-paulding-county-well-water', 'usda-loan-paulding-county' ] ],
+        'paulding-county-flood-zone-check-georgia'            => [ $p, [ 'septic-inspection-paulding-county-well-water', 'buying-land-in-paulding-county-ga', 'new-construction-homes-paulding-county' ] ],
+        'usda-loan-paulding-county'                           => [ $p, [ 'buying-land-in-paulding-county-ga', 'draketown-ga-rural-land-western-paulding-county', 'new-construction-homes-paulding-county' ] ],
+        'downtown-dallas-ga-history'                          => [ [ '/dallas-ga-real-estate/', 'Dallas, GA real estate' ], [ 'picketts-mill-battlefield-civil-war-paulding-county', 'living-in-dallas-ga', 'silver-comet-trail-paulding-county' ] ],
+        'paulding-county-population-growth'                   => [ $p, [ 'new-construction-homes-paulding-county', 'paulding-county-schools-school-zone-lookup', 'paulding-county-commute-to-atlanta' ] ],
+    ];
+}
+
+/** Posts that support each hub page, newest-first order not needed. */
+function ar_page_posts() {
+    return [
+        'paulding-county-ga-real-estate' => [ 'moving-to-paulding-county-ga', 'buying-land-in-paulding-county-ga', 'paulding-county-property-taxes', 'paulding-county-schools-school-zone-lookup', 'unincorporated-paulding-county-vs-city-limits', 'paulding-county-population-growth', 'living-in-dallas-ga' ],
+        'dallas-ga-real-estate'          => [ 'living-in-dallas-ga', 'downtown-dallas-ga-history', 'unincorporated-paulding-county-vs-city-limits', 'picketts-mill-battlefield-civil-war-paulding-county' ],
+        'hiram-ga-real-estate'           => [ 'living-in-hiram-ga', 'paulding-county-commute-to-atlanta', 'silver-comet-trail-paulding-county' ],
+        'polk-county-ga-real-estate'     => [ 'silver-comet-trail-paulding-county' ],
+        'haralson-county-ga-real-estate' => [ 'draketown-ga-rural-land-western-paulding-county' ],
+        'communities'                    => [ 'moving-to-paulding-county-ga', 'living-in-dallas-ga', 'living-in-hiram-ga', 'unincorporated-paulding-county-vs-city-limits' ],
+        'faq'                            => [ 'moving-to-paulding-county-ga', 'paulding-county-homestead-exemption', 'buying-land-in-paulding-county-ga' ],
+        'commuting-to-atlanta'           => [ 'paulding-county-commute-to-atlanta', 'living-in-hiram-ga', 'living-in-dallas-ga' ],
+        'property-taxes'                 => [ 'paulding-county-property-taxes', 'paulding-county-homestead-exemption', 'unincorporated-paulding-county-vs-city-limits' ],
+    ];
+}
+
+/** Published posts only, as [url, title]. */
+function ar_published_links( $slugs, $limit = 5 ) {
+    $out = [];
+    foreach ( (array) $slugs as $s ) {
+        $p = get_page_by_path( $s, OBJECT, 'post' );
+        if ( $p && 'publish' === $p->post_status ) {
+            $out[] = [ get_permalink( $p ), get_the_title( $p ) ];
+        }
+        if ( count( $out ) >= $limit ) { break; }
+    }
+    return $out;
+}
+
+/** Aside block of supporting posts for a hub page. Echoes nothing when there are none. */
+function ar_render_page_posts( $slug, $heading = 'From the blog' ) {
+    $map   = ar_page_posts();
+    $links = isset( $map[ $slug ] ) ? ar_published_links( $map[ $slug ], 5 ) : [];
+    if ( ! $links ) { return; }
+    echo '<div class="lr-aside-block"><span class="lr-aside-h">' . esc_html( $heading ) . '</span><ul class="lr-aside-list">';
+    foreach ( $links as $l ) {
+        echo '<li><a href="' . esc_url( $l[0] ) . '">' . esc_html( $l[1] ) . '</a></li>';
+    }
+    echo '</ul></div>';
+}
+
+/** Nearby places: sibling cities in the same county plus the county page. */
+function ar_nearby_places( $slug ) {
+    $county_cities = [
+        'paulding' => [ 'dallas', 'hiram' ],
+        'haralson' => [ 'bremen' ],
+        'polk'     => [ 'rockmart' ],
+        'carroll'  => [ 'villa-rica' ],
+    ];
+    $want = [];
+    foreach ( $county_cities as $county => $cities ) {
+        $cslug = $county . '-county-ga-real-estate';
+        $cslugs = array_map( function ( $c ) { return $c . '-ga-real-estate'; }, $cities );
+        if ( $slug === $cslug ) {
+            $want = array_merge( $cslugs, array_diff( array_map( function ( $k ) { return $k . '-county-ga-real-estate'; }, array_keys( $county_cities ) ), [ $cslug ] ) );
+        } elseif ( in_array( $slug, $cslugs, true ) ) {
+            $want = array_merge( array_diff( $cslugs, [ $slug ] ), [ $cslug ] );
+        }
+    }
+    if ( ! $want ) {
+        $want = array_merge( array_map( function ( $k ) { return $k . '-county-ga-real-estate'; }, array_keys( $county_cities ) ) );
+    }
+    $out = [];
+    foreach ( $want as $w ) {
+        $p = get_page_by_path( $w );
+        if ( $p && 'publish' === $p->post_status ) {
+            $out[] = [ get_permalink( $p ), str_replace( [ 'Real Estate in ', ', Georgia', ' Real Estate', ', Georgia Real Estate' ], '', get_the_title( $p ) ) ];
+        }
+    }
+    return $out;
 }

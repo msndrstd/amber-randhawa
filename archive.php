@@ -25,7 +25,7 @@ if ( is_category( 'writing' ) ) {
 
 $trail = [ [ 'label' => 'Home', 'url' => home_url( '/' ) ] ];
 if ( ( is_category() || is_tag() || is_tax() ) && ! is_category( 'writing' ) ) {
-    $trail[] = [ 'label' => 'Blog', 'url' => home_url( '/blog' ) ];
+    $trail[] = [ 'label' => 'Blog', 'url' => home_url( '/blog/' ) ];
 }
 $trail[] = [ 'label' => is_category( 'writing' ) ? 'Writing' : ( is_home() ? 'Blog' : $head_title ) ];
 ?>
@@ -76,7 +76,7 @@ $trail[] = [ 'label' => is_category( 'writing' ) ? 'Writing' : ( is_home() ? 'Bl
 
       <?php else : ?>
         <div class="lr-prose lr-rise">
-          <p>Nothing here yet. The writing lives on the <a href="<?php echo esc_url( home_url( '/blog' ) ); ?>">main writing page</a>.</p>
+          <p>Nothing here yet. Try <a href="<?php echo esc_url( home_url( '/writing/' ) ); ?>">the writing</a> or <a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">the blog</a>.</p>
         </div>
       <?php endif; ?>
 

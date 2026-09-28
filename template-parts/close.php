@@ -14,7 +14,7 @@ $body    = isset( $args['body'] ) ? $args['body'] : 'Slip your shoes off and pou
       <span class="lr-mark" aria-hidden="true"></span>
       <p><?php echo esc_html( $body ); ?></p>
       <div class="lr-actions">
-        <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="lr-btn lr-btn--go">Start a conversation</a>
+        <a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="lr-btn lr-btn--go">Start a conversation</a>
         <a href="https://amberrandhawa.kw.com" class="lr-btn lr-btn--ghost" rel="noopener">See my listings</a>
       </div>
     </div>
