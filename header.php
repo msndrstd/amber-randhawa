@@ -157,7 +157,8 @@ setTimeout(function () {
                  never contain a 404. */
               $ar_guide_links = [];
               foreach ( [ 'commuting-to-atlanta' => 'The drive to Atlanta',
-                          'property-taxes'       => 'Property taxes by county' ] as $sl => $lbl ) {
+                          'property-taxes'       => 'Property taxes, in plain English' ]
+                          + ( function_exists( 'ar_extra_guides' ) ? array_map( function ( $g ) { return $g[0]; }, ar_extra_guides() ) : [] ) as $sl => $lbl ) {
                   $pg = get_page_by_path( $sl );
                   if ( $pg && 'publish' === $pg->post_status ) {
                       $ar_guide_links[] = [ 'url' => get_permalink( $pg ), 'label' => $lbl ];

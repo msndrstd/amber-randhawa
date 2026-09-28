@@ -51,6 +51,15 @@ foreach ( $guide_templates as $tmpl => $blurb ) {
     }
 }
 
+if ( function_exists( 'ar_extra_guides' ) ) {
+    foreach ( ar_extra_guides() as $gslug => $g ) {
+        $gp = get_page_by_path( $gslug );
+        if ( $gp && 'publish' === $gp->post_status ) {
+            $guides[] = [ 'title' => get_the_title( $gp ), 'url' => get_permalink( $gp ), 'blurb' => $g[1] ];
+        }
+    }
+}
+
 $trail = [
     [ 'label' => 'Home', 'url' => home_url( '/' ) ],
     [ 'label' => 'Guides' ],

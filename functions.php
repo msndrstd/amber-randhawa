@@ -311,6 +311,11 @@ function ar_crumb_trail( $post = null ) {
         }
     }
 
+    // An extra guide page: Home > Guides > page
+    if ( function_exists( 'ar_extra_guides' ) && isset( ar_extra_guides()[ $slug ] ) ) {
+        return [ $home, [ 'label' => 'Guides', 'url' => home_url( '/guides/' ) ], [ 'label' => $title ] ];
+    }
+
     // Anything else: honour real ancestors if there are any
     $trail = [ $home ];
     foreach ( array_reverse( (array) get_post_ancestors( $post ) ) as $anc ) {
@@ -468,6 +473,8 @@ function ar_get_meta_description() {
         $desc = $by_slug['blog'];
     } elseif ( is_category( 'writing' ) ) {
         $desc = $by_slug['writing'];
+    } elseif ( is_page() && function_exists( 'ar_extra_guide_meta' ) && isset( ar_extra_guide_meta()[ get_post_field( 'post_name', get_queried_object_id() ) ] ) ) {
+        $desc = ar_extra_guide_meta()[ get_post_field( 'post_name', get_queried_object_id() ) ];
     } elseif ( is_page() && isset( $by_slug[ get_post_field( 'post_name', get_queried_object_id() ) ] ) ) {
         $desc = $by_slug[ get_post_field( 'post_name', get_queried_object_id() ) ];
     } elseif ( is_singular( 'post' ) && function_exists( 'ar_post_meta_map' ) && isset( ar_post_meta_map()[ get_post_field( 'post_name', get_queried_object_id() ) ] ) ) {
@@ -822,6 +829,11 @@ function ar_page_posts() {
         'communities'                    => [ 'moving-to-paulding-county-ga', 'living-in-dallas-ga', 'living-in-hiram-ga', 'unincorporated-paulding-county-vs-city-limits' ],
         'faq'                            => [ 'moving-to-paulding-county-ga', 'paulding-county-homestead-exemption', 'buying-land-in-paulding-county-ga' ],
         'commuting-to-atlanta'           => [ 'paulding-county-commute-to-atlanta', 'living-in-hiram-ga', 'living-in-dallas-ga' ],
+        'buying-land-northwest-georgia'  => [ 'buying-land-in-paulding-county-ga', 'draketown-ga-rural-land-western-paulding-county', 'septic-inspection-paulding-county-well-water', 'usda-loan-paulding-county', 'paulding-county-flood-zone-check-georgia' ],
+        'living-near-silver-comet-trail' => [ 'silver-comet-trail-paulding-county', 'living-in-hiram-ga', 'downtown-dallas-ga-history' ],
+        'moving-to-rockmart-ga'          => [ 'silver-comet-trail-paulding-county', 'buying-land-in-paulding-county-ga' ],
+        'bremen-city-schools-vs-haralson-county-schools' => [ 'paulding-county-schools-school-zone-lookup' ],
+        'villa-rica-property-taxes-carroll-county-vs-douglas-county' => [ 'paulding-county-property-taxes', 'paulding-county-homestead-exemption' ],
         'property-taxes'                 => [ 'paulding-county-property-taxes', 'paulding-county-homestead-exemption', 'unincorporated-paulding-county-vs-city-limits' ],
     ];
 }
@@ -880,4 +892,41 @@ function ar_nearby_places( $slug ) {
         }
     }
     return $out;
+}
+
+/* ============================================================
+   EXTRA GUIDES (2026-09-28): content pages in the WP database,
+   rendered by page.php, listed in the Guides hub and nav.
+   ============================================================ */
+function ar_extra_guides() {
+    return [
+        'bremen-city-schools-vs-haralson-county-schools' => [ 'Bremen vs Haralson schools', 'Two school districts, one city limits line, and a whole lot of houses with a Bremen mailing address sitting right next to it.' ],
+        'villa-rica-property-taxes-carroll-county-vs-douglas-county' => [ 'Villa Rica taxes, by county', 'One city, two counties, two very different tax bills. Here\'s how to tell which side of the Villa Rica county line a house is on, and what it costs.' ],
+        'moving-to-rockmart-ga' => [ 'Moving to Rockmart', 'A slate town, a creek through downtown, the Silver Comet out the back door, and an honest look at the drive to Atlanta.' ],
+        'buying-land-northwest-georgia' => [ 'Buying land', 'Land doesn\'t care about county lines. The paperwork does. Here\'s who to call in Paulding, Haralson, Carroll and Polk before you buy.' ],
+        'living-near-silver-comet-trail' => [ 'Living near the Silver Comet', 'Close to the Silver Comet can mean a walk, a drive, or a trail right past your fence. Here\'s how to tell which one you\'re buying.' ],
+    ];
+}
+add_filter( 'pre_get_document_title', function ( $title ) {
+    $map = [
+        'bremen-city-schools-vs-haralson-county-schools' => 'Bremen City Schools vs Haralson County Schools',
+        'villa-rica-property-taxes-carroll-county-vs-douglas-county' => 'Villa Rica Property Taxes: Carroll vs Douglas County',
+        'moving-to-rockmart-ga' => 'Moving to Rockmart GA: Living Guide | Amber Randhawa',
+        'buying-land-northwest-georgia' => 'Buying Land in Northwest Georgia | Amber Randhawa',
+        'living-near-silver-comet-trail' => 'Homes Near the Silver Comet Trail | Amber Randhawa',
+    ];
+    if ( is_page() ) {
+        $slug = get_post_field( 'post_name', get_queried_object_id() );
+        if ( isset( $map[ $slug ] ) ) { return $map[ $slug ]; }
+    }
+    return $title;
+}, 20 );
+function ar_extra_guide_meta() {
+    return [
+        'bremen-city-schools-vs-haralson-county-schools' => 'Bremen City Schools vs Haralson County Schools: who\'s eligible, school lists, rankings, non-resident tuition, and how to confirm an address before you buy.',
+        'villa-rica-property-taxes-carroll-county-vs-douglas-county' => 'Villa Rica property taxes in Carroll County vs Douglas County: how to tell which side a home is on, 2025 millage for each, and a worked example.',
+        'moving-to-rockmart-ga' => 'Moving to Rockmart GA? Living in Rockmart, Georgia: slate history, the Silver Comet, Polk schools, utilities, the Atlanta drive and a first-month list.',
+        'buying-land-northwest-georgia' => 'Buying land in northwest Georgia? Zoning, septic, wells, power, CUVA, easements and land loans, county by county for Paulding, Haralson, Carroll and Polk.',
+        'living-near-silver-comet-trail' => 'Homes near the Silver Comet Trail in Georgia: trailheads by town and county, parking, what backing up to the trail is like, and how to check a parcel.',
+    ];
 }
