@@ -1,0 +1,5 @@
+# Timestamped backups made during edits
+*.bak*
+*.bak-*
+# macOS
+.DS_Store

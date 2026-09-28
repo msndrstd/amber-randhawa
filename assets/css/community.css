@@ -1,0 +1,526 @@
+/* ============================================================
+   COMMUNITY PAGES
+   Stats tables, fact blocks, and FAQ sections.
+   Uses the locked tokens from main.css. Adds no new colors.
+
+   Install: save as assets/css/community.css and enqueue after
+   main.css, or paste this whole file at the end of main.css.
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. THE ROOT PROBLEM: measure
+   .container is 1320px. Prose at 1320px is a wall. Everything
+   on these pages gets a reading measure instead.
+   ------------------------------------------------------------ */
+
+.page-template-default .post-content > .container {
+  max-width: 820px;
+}
+
+/* ------------------------------------------------------------
+   2. HER VOICE COPY
+   The intro that opens every community page. This is the part
+   that has to read like a person wrote it, so it gets the
+   largest type and the most air.
+   ------------------------------------------------------------ */
+
+.ar-voice {
+  max-width: 34em;
+}
+
+.ar-voice p {
+  font-size: var(--text-md);
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--color-ink);
+  margin: 0 0 1.4em;
+}
+
+/* First paragraph carries the page. Slightly larger, no drop cap
+   competing with the hero heading directly above it. */
+.ar-voice p:first-of-type {
+  font-size: var(--text-lg);
+  line-height: 1.6;
+  color: var(--color-forest);
+}
+
+.ar-voice p:first-child::first-letter {
+  font-size: inherit;
+  font-weight: inherit;
+  font-style: inherit;
+  float: none;
+  margin: 0;
+  line-height: inherit;
+  color: inherit;
+  font-family: inherit;
+}
+
+.ar-voice h2 {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--text-xl);
+  color: var(--color-forest);
+  margin: 3rem 0 1rem;
+  text-wrap: balance;
+}
+
+/* ------------------------------------------------------------
+   3. THE FACTS BLOCK
+   Deliberately reads as a different register from her voice.
+   Tighter, cooler, more instrument than essay. The rule at the
+   top is the seam between the two.
+   ------------------------------------------------------------ */
+
+.ar-facts {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 2px solid var(--color-forest);
+}
+
+.ar-facts h2 {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--text-xl);
+  line-height: 1.2;
+  color: var(--color-forest);
+  margin: var(--space-lg) 0 var(--space-sm);
+  text-wrap: balance;
+}
+
+.ar-facts > h2:first-of-type {
+  margin-top: 0;
+}
+
+.ar-facts h3 {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: var(--text-base);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-earth);
+  margin: var(--space-md) 0 0.6rem;
+}
+
+.ar-facts p,
+.ar-facts li {
+  font-size: var(--text-base);
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--color-ink);
+  max-width: 36em;
+}
+
+.ar-facts p { margin: 0 0 1.1em; }
+
+.ar-facts ul {
+  margin: 0 0 1.4em;
+  padding-left: 1.1em;
+  list-style: none;
+}
+
+.ar-facts li {
+  position: relative;
+  margin-bottom: 0.6em;
+}
+
+.ar-facts li::before {
+  content: "";
+  position: absolute;
+  left: -1.1em;
+  top: 0.68em;
+  width: 0.5em;
+  height: 1px;
+  background: var(--color-cedar);
+}
+
+.ar-facts strong { font-weight: 600; color: var(--color-forest); }
+
+/* ------------------------------------------------------------
+   4. TABLES
+   Two kinds, and they want different treatment.
+
+   .ar-stats is a label/value list. Read down the left column.
+   .ar-compare is a real matrix. Read across the header row.
+   ------------------------------------------------------------ */
+
+.ar-facts table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 0 var(--space-md);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+}
+
+.ar-facts table caption {
+  caption-side: top;
+  text-align: left;
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-earth);
+  padding-bottom: 0.7rem;
+}
+
+/* Wide tables scroll inside themselves. The page never scrolls sideways. */
+.ar-facts .table-scroll { overflow-x: auto; }
+
+/* --- Stats: label left, value right, hairline between --- */
+
+.ar-stats th[scope="row"] {
+  width: 38%;
+  text-align: left;
+  font-weight: 600;
+  font-size: var(--text-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-earth);
+  vertical-align: top;
+  padding: 0.85rem 1.5rem 0.85rem 0;
+  border-bottom: 1px solid rgba(150, 180, 116, 0.45);
+}
+
+.ar-stats td {
+  text-align: left;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--color-ink);
+  padding: 0.85rem 0;
+  border-bottom: 1px solid rgba(150, 180, 116, 0.45);
+}
+
+.ar-stats tr:last-child th,
+.ar-stats tr:last-child td { border-bottom: none; }
+
+/* --- Compare: forest header band, hairlines below --- */
+
+.ar-compare thead th {
+  background: var(--color-forest);
+  color: var(--color-linen);
+  font-weight: 600;
+  font-size: var(--text-xs);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 0.8rem 1rem;
+}
+
+.ar-compare thead th:first-child { padding-left: 1rem; }
+
+.ar-compare th[scope="row"] {
+  text-align: left;
+  font-weight: 600;
+  font-size: var(--text-xs);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-earth);
+  vertical-align: top;
+  padding: 0.8rem 1rem 0.8rem 1rem;
+  border-bottom: 1px solid rgba(150, 180, 116, 0.45);
+}
+
+.ar-compare td {
+  padding: 0.8rem 1rem;
+  line-height: 1.55;
+  color: var(--color-ink);
+  vertical-align: top;
+  border-bottom: 1px solid rgba(150, 180, 116, 0.45);
+}
+
+/* A tbody row whose first cell is a <th> that is also bold in
+   markup is a totals row. Give it weight. */
+.ar-compare tbody th:not([scope="row"]) {
+  color: var(--color-forest);
+  font-weight: 700;
+  text-align: left;
+  padding: 0.8rem 1rem;
+  border-top: 2px solid var(--color-forest);
+  border-bottom: none;
+}
+
+.ar-compare tr:last-child td { border-bottom: none; }
+
+/* ------------------------------------------------------------
+   5. FAQ
+   Left rule in cedar so the run reads as one unit. Questions in
+   the display face so they scan as questions, not as headings.
+   ------------------------------------------------------------ */
+
+.ar-faq {
+  margin-top: var(--space-lg);
+  padding-top: var(--space-md);
+  border-top: 2px solid var(--color-forest);
+}
+
+.ar-faq > h2 {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--text-xl);
+  color: var(--color-forest);
+  margin: 0 0 var(--space-md);
+  text-wrap: balance;
+}
+
+.ar-faq h3 {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--text-lg);
+  line-height: 1.3;
+  color: var(--color-forest);
+  letter-spacing: 0;
+  text-transform: none;
+  margin: 0 0 0.7rem;
+  text-wrap: balance;
+}
+
+.ar-faq h3 + p {
+  margin: 0;
+  font-size: var(--text-base);
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--color-ink);
+  max-width: 36em;
+}
+
+/* Each question and answer is a unit with a hairline above it. */
+.ar-faq h3 {
+  padding-top: var(--space-md);
+  margin-top: var(--space-md);
+  border-top: 1px solid rgba(150, 180, 116, 0.45);
+}
+
+.ar-faq h3:first-of-type {
+  padding-top: 0;
+  margin-top: 0;
+  border-top: none;
+}
+
+/* ------------------------------------------------------------
+   6. SMALL SCREENS
+   Stats tables stack. Compare tables scroll rather than crush.
+   ------------------------------------------------------------ */
+
+@media (max-width: 640px) {
+  .ar-voice { max-width: none; }
+
+  .ar-stats,
+  .ar-stats tbody,
+  .ar-stats tr { display: block; width: 100%; }
+
+  .ar-stats th[scope="row"] {
+    display: block;
+    width: 100%;
+    padding: 0 0 0.2rem;
+    border-bottom: none;
+  }
+
+  .ar-stats td {
+    display: block;
+    width: 100%;
+    padding: 0 0 0.9rem;
+    margin-bottom: 0.9rem;
+    border-bottom: 1px solid rgba(150, 180, 116, 0.45);
+  }
+
+  .ar-compare {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .ar-compare td,
+  .ar-compare th { white-space: normal; min-width: 9rem; }
+
+  .ar-facts h2,
+  .ar-faq > h2 { font-size: var(--text-lg); }
+}
+
+/* ------------------------------------------------------------
+   7. PRINT
+   People print these to take to a showing. Make that work.
+   ------------------------------------------------------------ */
+
+@media print {
+  .ar-facts, .ar-faq { border-top-color: #000; }
+  .ar-compare thead th { background: none; color: #000; border-bottom: 2px solid #000; }
+  .ar-faq h3 { break-after: avoid; }
+  .ar-facts table { break-inside: avoid; }
+}
+
+/* ------------------------------------------------------------
+   8. HEADER PHOTO BAND
+   Community pages open on a photograph of the place; the crumbs,
+   H1, mark and lede sit on top of it. Rule 2 still holds -- the
+   ground stays light, so the photo carries a linen wash and the
+   type stays forest/ink rather than flipping to white.
+
+   Markup (page.php):
+     .lr-head.lr-head--photo[.has-photo]
+       > .lr-head-media  > img | span.lr-head-slot
+       > .lr-wrap        > crumbs, h1, mark, lede
+   ------------------------------------------------------------ */
+
+.lr-head--photo {
+  position: relative;
+  isolation: isolate;
+  background: var(--color-oat);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: clamp(300px, 34vw, 480px);
+  padding-bottom: clamp(34px, 4.5vw, 60px);
+}
+
+.lr-head-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  line-height: 0;
+}
+.lr-head-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 45%;
+}
+
+/* Legibility wash. Heavier at the edges than through the middle so the
+   photograph still reads where the frame was shot to be empty. */
+.lr-head--photo.has-photo .lr-head-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(243, 237, 229, 0.94) 0%,
+    rgba(243, 237, 229, 0.74) 42%,
+    rgba(243, 237, 229, 0.90) 100%
+  );
+}
+
+.lr-head--photo > .lr-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+/* Empty state: same contract as template-parts/slot.php -- name the
+   file to drop in, never ship a stock photo. */
+.lr-head--photo:not(.has-photo) .lr-head-media {
+  background:
+    repeating-linear-gradient(135deg,
+      rgba(150, 180, 116, 0.20) 0 14px, transparent 14px 28px),
+    var(--color-oat);
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: calc(var(--nav-height, 90px) + 14px) clamp(18px, 4vw, 40px) 14px;
+}
+.lr-head-slot {
+  line-height: 1.5;
+  text-align: right;
+  font-size: var(--t-label);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-earth);
+}
+.lr-head-slot i,
+.lr-head-slot b,
+.lr-head-slot em { display: block; font-style: normal; }
+.lr-head-slot b {
+  text-transform: none;
+  letter-spacing: 0.02em;
+  color: var(--color-forest);
+  font-weight: 500;
+}
+.lr-head-slot em {
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-size: var(--t-small, 0.8125rem);
+}
+
+@media (max-width: 640px) {
+  .lr-head--photo { min-height: 260px; }
+  .lr-head--photo.has-photo .lr-head-media::after {
+    background: linear-gradient(
+      180deg,
+      rgba(243, 237, 229, 0.90) 0%,
+      rgba(243, 237, 229, 0.82) 40%,
+      rgba(243, 237, 229, 0.94) 100%
+    );
+  }
+  .lr-head-slot { font-size: var(--t-small, 0.8125rem); letter-spacing: 0.08em; }
+}
+
+@media print {
+  .lr-head-media { display: none; }
+  .lr-head--photo { min-height: 0; }
+}
+
+/* ── 9. Bremen aside: full-height frame ───────────────────────
+   The Sewell Mfg frame is 9:16. Cropping it to the standard 4:5
+   cut the building; matting it to fit made the photo narrower
+   than the column, which is worse. So this one aside keeps the
+   full width and takes the photo's own height. Bremen only.
+   Revert by deleting this block. */
+.page-bremen-ga-real-estate .lr-aside-photo { aspect-ratio: 9 / 16; }
+
+/* Polk County: the Audrey Hepburn mural is 1619x2670. Same reasoning
+   as Bremen above - full column width, the photo's own height, no crop. */
+.page-polk-county-ga-real-estate .lr-aside-photo { aspect-ratio: 1200 / 1979; }
+
+/* ── 10. (Contact band focal point moved into section 11.) */
+
+/* ── 11. Band focal points ───────────────────────────────────
+   The band container is width ÷ min-height, so it is far narrower
+   than the 4.5:1 file on real screens: about 2.3:1 on a tablet and
+   1.5:1 on a phone (min-height drops to 260px at 640px). With
+   object-fit: cover that means only ~51% of the image width shows
+   on a tablet and ~33% on a phone, centred.
+
+   So any subject that is not dead centre gets cropped away. These
+   set object-position X to the subject's own position in the file,
+   which keeps it inside the visible window at every width.
+   Pages not listed here are centre-weighted and need no rule. */
+.page-haralson-county-ga-real-estate .lr-head-media img { object-position: 72% 45%; }
+.page-hiram-ga-real-estate .lr-head-media img           { object-position: 76% 45%; }
+.page-communities .lr-head-media img                    { object-position: 42% 45%; }
+.page-rockmart-ga-real-estate .lr-head-media img        { object-position: 45% 45%; }
+.page-villa-rica-ga-real-estate .lr-head-media img      { object-position: 46% 45%; }
+.page-contact .lr-head-media img                        { object-position: 72% 40%; }
+
+/* ── 12. Phone bands ─────────────────────────────────────────
+   Below 640px a 1:1 crop of each band is served via <picture>
+   (see page.php), because the header is roughly square on a phone
+   and a 4.5:1 strip only shows about a fifth of its width there.
+   The images are composed for that window, so they need no
+   object-position nudging -- just a lighter wash, since the one
+   tuned for a wide strip was opaque enough to flatten them. */
+@media (max-width: 640px) {
+  .lr-head--photo.has-photo .lr-head-media::after {
+    background: linear-gradient(
+      180deg,
+      rgba(243, 237, 229, 0.78) 0%,
+      rgba(243, 237, 229, 0.64) 40%,
+      rgba(243, 237, 229, 0.86) 100%
+    );
+  }
+  /* The -sm crops are 4:3. The phone header ranges from about 1:1
+     (390px, three-line H1) to about 1.6:1 (a 568px logical-width
+     phone), so 4:3 sits between and the subject survives both with a
+     small crop at one edge or the other. Y at 42% because every
+     subject -- the bull's head, Amber's face, a storefront roofline
+     -- sits above centre. */
+  .lr-head--photo.has-photo .lr-head-media img { object-position: 50% 30%; }
+
+  /* Two subjects sit higher in their frames than the rest and read as
+     crowded against the top edge on a phone. Lower Y shows more of the
+     image top, which pushes the subject down. */
+  .page-haralson-county-ga-real-estate .lr-head-media img { object-position: 50% 18%; }
+  .page-contact .lr-head-media img                        { object-position: 50% 20%; }
+}

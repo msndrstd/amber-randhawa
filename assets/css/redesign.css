@@ -1,0 +1,202 @@
+/* ============================================================
+   REDESIGN — HOMEPAGE
+   Direction: linen carries the page, forest drops to accent.
+   Scoped to .home so nothing else on the site changes.
+   ============================================================ */
+
+:root{
+  --color-paper: #E3DCCD;   /* oat. Porch Light band colour, locked 2026-08-30. */
+}
+
+/* --- Nav ---------------------------------------------------
+   The homepage hero is light now, so the nav wears its light
+   treatment from load instead of the transparent-over-dark one.
+   These mirror the theme's own selectors with one more class of
+   specificity, and match its !important where it uses it.
+   ---------------------------------------------------------- */
+/* The homepage nav block that used to live here was written for the old
+   light hero. The homepage hero is a full-bleed reel now, so the nav is
+   owned entirely by assets/css/landrecords.css. Do not re-add it here. */
+
+/* --- Communities dropdown -----------------------------------
+   Site-wide, not just the homepage: the panel was forest with
+   linen text at 0.8 opacity, which was dark and low contrast.
+   Now a light panel with full-opacity text, per the locked rule
+   that body text never carries an opacity modifier.
+   ------------------------------------------------------------ */
+.nav-dropdown-inner{
+  background: var(--color-linen);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: 1px solid rgba(151,168,130,.55);
+  box-shadow: 0 14px 44px rgba(26,34,25,.16);
+  border-radius: 2px;
+}
+.nav-dropdown-label{
+  color: var(--color-earth);
+  font-weight: 600;
+}
+.nav-dropdown a{
+  color: var(--color-ink);
+  font-weight: 400;
+}
+.nav-dropdown a:hover{
+  background: rgba(192,144,112,.18);
+  color: var(--color-forest);
+}
+.nav-dropdown-divider{
+  background: rgba(151,168,130,.55);
+}
+.nav-dropdown-all{
+  color: var(--color-forest) !important;
+  font-weight: 600 !important;
+}
+.nav-dropdown-all:hover{
+  color: var(--color-cedar) !important;
+}
+
+/* --- Shared --- */
+.rd{ background: var(--color-linen); color: var(--color-ink); }
+.rd-wrap{ width:100%; max-width:1180px; margin-inline:auto; padding-inline: clamp(24px,5vw,64px); }
+.rd-kicker{
+  font-size:11px; font-weight:600; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--color-earth); margin:0;
+}
+.rd-disp{
+  font-family: var(--font-display); font-style: italic; font-weight:400;
+  color: var(--color-forest); margin:0; text-wrap: balance;
+}
+.rd-lede{ font-size:19px; line-height:1.65; color:var(--color-ink); max-width:34em; margin:0; font-weight:400; }
+.rd-body{ font-size:16.5px; line-height:1.72; color:var(--color-ink); max-width:34em; margin:0; font-weight:400; }
+.rd-mark{ width:76px; height:3px; background:var(--color-cedar); }
+.rd-mark--sm{ width:34px; height:2px; }
+
+.rd-btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  background:var(--color-forest); color:var(--color-linen);
+  font-size:12px; font-weight:600; letter-spacing:.18em; text-transform:uppercase;
+  padding:17px 30px; min-height:52px; text-decoration:none;
+  transition: background .3s var(--ease-out), color .3s var(--ease-out);
+}
+.rd-btn:hover{ background:var(--color-cedar); color:var(--color-forest); }
+.rd-btn--ghost{ background:transparent; border:1px solid var(--color-forest); color:var(--color-forest); padding:16px 29px; }
+.rd-btn--ghost:hover{ background:var(--color-forest); color:var(--color-linen); }
+.rd-btn--cedar{ background:var(--color-cedar); color:var(--color-forest); }
+.rd-btn--cedar:hover{ background:var(--color-linen); color:var(--color-forest); }
+
+/* --- Photo slots: deliberately obvious until real photography exists --- */
+.rd-slot{
+  position:relative;
+  background:
+    repeating-linear-gradient(135deg, rgba(107,91,78,.07) 0 12px, transparent 12px 24px),
+    var(--color-paper);
+  border:1px dashed var(--color-earth);
+  display:flex; flex-direction:column; justify-content:flex-end; padding:18px;
+}
+.rd-slot span{
+  font-size:10.5px; font-weight:600; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--color-earth); line-height:1.5;
+}
+.rd-slot span b{
+  display:block; font-weight:400; letter-spacing:.02em; text-transform:none;
+  font-size:12.5px; color:var(--color-ink); margin-top:5px;
+}
+.rd-slot--dark{ border-color:var(--color-sage);
+  background: repeating-linear-gradient(135deg, rgba(151,168,130,.16) 0 12px, transparent 12px 24px), rgba(151,168,130,.1); }
+.rd-slot--dark span{ color:var(--color-sage); }
+.rd-slot--dark span b{ color:var(--color-linen); }
+
+/* --- Real photography ---
+   No cropping. Images render whole, at their own aspect ratio. */
+.rd-photo{ width:100%; height:auto; display:block; }
+.rd-photo--hero{ max-width:480px; }
+
+/* --- Hero --- */
+.rd-hero{ padding-top: calc(var(--nav-height) + 48px); padding-bottom: 88px; }
+/* The photo bleeds to the right edge of the viewport so it carries the page
+   instead of floating in a column. Copy keeps a reading measure on the left. */
+.rd-hero .rd-wrap{ max-width:1180px; }
+.rd-hero-grid{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,0.8fr); gap:64px; align-items:center; }
+.rd-hero-aside{ align-self:center; }
+.rd-hero-copy{ display:flex; flex-direction:column; gap:28px; max-width:34em; }
+.rd-hero h1{ font-size: clamp(38px, 4.6vw, 66px); line-height:1.04; letter-spacing:-.015em; }
+.rd-hero-aside{ display:flex; flex-direction:column; gap:14px; }
+.rd-hero-slot{ aspect-ratio:1/1; }
+.rd-tagline{ font-family:var(--font-display); font-style:italic; font-size:19px; color:var(--color-cedar); padding-left:2px; }
+
+/* --- Voice band --- */
+.rd-voice{ background:var(--color-sage); }
+.rd-voice-grid{ padding-block:82px; display:grid; grid-template-columns:1fr auto; gap:56px; align-items:center; }
+.rd-voice blockquote{ font-size: clamp(24px,3vw,36px); line-height:1.35; color:var(--color-forest); margin:0; max-width:20em; }
+.rd-voice p{ max-width:22em; color:var(--color-forest); font-size:16px; line-height:1.7; margin:0; font-weight:400; }
+
+/* --- Counties --- */
+.rd-places{ padding-top:100px; padding-bottom:24px; display:flex; flex-direction:column; gap:18px; }
+.rd-places h2{ font-size: clamp(30px,3.6vw,46px); line-height:1.12; max-width:15em; }
+.rd-county-grid{ padding-bottom:100px; padding-top:44px; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 64px; }
+.rd-county{ border-top:1px solid rgba(151,168,130,.55); padding:26px 0 30px; display:flex; flex-direction:column; gap:11px; }
+.rd-county--lead{ border-top:2px solid var(--color-forest); }
+.rd-county-head{ display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+.rd-county-name{ font-family:var(--font-display); font-style:italic; font-size:29px; color:var(--color-forest); }
+.rd-county p{ font-size:15.5px; line-height:1.7; margin:0; font-weight:400; }
+.rd-stats{ display:flex; gap:26px; padding-top:6px; }
+.rd-stat-label{ font-size:9px; font-weight:600; letter-spacing:.24em; text-transform:uppercase; color:var(--color-earth); }
+.rd-stat-val{ font-family:var(--font-display); font-size:22px; color:var(--color-forest); font-variant-numeric:tabular-nums; }
+
+/* --- Three beats --- */
+.rd-beats{ background:var(--color-paper); border-top:1px solid rgba(151,168,130,.55); }
+.rd-beats-inner{ padding-block:96px 100px; display:flex; flex-direction:column; gap:52px; }
+.rd-beats h2{ font-size: clamp(30px,3.6vw,46px); line-height:1.12; max-width:14em; }
+.rd-beat-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:52px; }
+.rd-beat{ display:flex; flex-direction:column; gap:13px; }
+.rd-beat h3{ font-family:var(--font-display); font-style:italic; font-weight:400; font-size:24px; line-height:1.25; color:var(--color-forest); margin:0; }
+.rd-beat p{ font-size:15.5px; line-height:1.7; margin:0; font-weight:400; }
+
+/* --- Writing --- */
+.rd-writing{ padding-block:100px; display:flex; flex-direction:column; gap:48px; }
+.rd-writing-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:40px; flex-wrap:wrap; }
+.rd-writing h2{ font-size: clamp(30px,3.6vw,46px); line-height:1.12; max-width:15em; }
+.rd-post-grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:36px; }
+.rd-post{ display:flex; flex-direction:column; gap:16px; }
+.rd-post .rd-slot{ aspect-ratio:3/2; }
+.rd-post img,
+.rd-post a img{ width:100%; height:auto; aspect-ratio:3/2; object-fit:cover; display:block; }
+.rd-post h3{ font-family:var(--font-display); font-style:italic; font-weight:400; font-size:25px; line-height:1.24; color:var(--color-forest); margin:0; }
+.rd-post p{ font-size:15px; line-height:1.7; margin:0; font-weight:400; }
+.rd-cat{ font-size:11px; font-weight:600; letter-spacing:.24em; text-transform:uppercase; color:var(--color-cedar); }
+
+/* --- About band (the one dark moment) --- */
+.rd-about{ background:var(--color-forest); }
+.rd-about-grid{ padding-block:96px; display:grid; grid-template-columns:.78fr 1fr; gap:72px; align-items:center; }
+.rd-about .rd-slot{ aspect-ratio:3/4; }
+.rd-about-copy{ display:flex; flex-direction:column; gap:26px; }
+.rd-about h2{ font-size: clamp(30px,3.4vw,44px); line-height:1.15; color:var(--color-linen); max-width:14em; }
+.rd-about p{ font-size:17px; line-height:1.72; margin:0; font-weight:400; color:var(--color-linen); }
+.rd-about p.rd-sage{ color:var(--color-sage); }
+.rd-about .rd-kicker{ color:var(--color-sage); }
+
+/* --- CTA --- */
+.rd-cta{ padding-block:104px; display:flex; flex-direction:column; align-items:center; gap:30px; text-align:center; }
+.rd-cta h2{ font-size: clamp(38px,4.6vw,60px); line-height:1.08; max-width:13em; }
+.rd-cta .rd-lede{ max-width:30em; }
+.rd-cta-actions{ display:flex; gap:16px; padding-top:10px; flex-wrap:wrap; justify-content:center; }
+
+/* --- Responsive --- */
+@media (max-width: 900px){
+  .rd-hero .rd-wrap{ max-width:none; }
+  .rd-hero-copy{ max-width:none; }
+  .rd-photo--hero{ max-width:none; }
+  .rd-hero-grid,
+  .rd-about-grid{ grid-template-columns:1fr; gap:36px; }
+  .rd-voice-grid{ grid-template-columns:1fr; gap:24px; padding-block:56px; }
+  .rd-county-grid{ grid-template-columns:1fr; gap:0; padding-bottom:64px; }
+  .rd-beat-grid,
+  .rd-post-grid{ grid-template-columns:1fr; gap:40px; }
+  .rd-hero{ padding-top: calc(var(--nav-height) + 40px); padding-bottom:56px; }
+  .rd-places{ padding-top:64px; }
+  .rd-writing{ padding-block:64px; }
+  .rd-beats-inner{ padding-block:64px; }
+  .rd-about-grid{ padding-block:64px; }
+  .rd-cta{ padding-block:72px; }
+  .rd-cta-actions .rd-btn{ width:100%; }
+}

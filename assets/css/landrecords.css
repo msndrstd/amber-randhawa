@@ -1,0 +1,311 @@
+/* ============================================================
+   LAND RECORDS — FRONT PAGE ONLY
+
+   The design system now lives in assets/css/system.css and is
+   enqueued site-wide. This file holds ONLY the sections that are
+   unique to the homepage, plus the homepage nav treatment.
+
+   Do not redefine tokens, the grid, the type steps, buttons,
+   marks, the band or the closing ask in here. They are in
+   system.css and that is the single source of truth.
+   ============================================================ */
+
+/* ============================================================
+   01 · HERO — the reel under a LINEN wash
+
+   The first version put a 90% forest scrim over the whole viewport,
+   which rebuilt the exact "too dark" problem that started this
+   redesign. The wash is linen now and the type is ink, so the hero
+   reads as daylight rather than as a dark site. Full viewport height,
+   but light: the fix for "too dark" was the wash, not the size.
+
+   Contrast headroom: linen at 82% over a pure black frame still
+   gives ink 8.4:1. There is room to go lighter, never darker.
+   ============================================================ */
+
+.lr-hero-fs {
+  position: relative;
+  min-height: 560px;
+  height: 100vh;
+  height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-top: var(--nav-height, 90px);
+  padding-bottom: clamp(32px, 4vw, 56px);
+  overflow: hidden;
+  background: var(--color-linen);
+}
+
+.lr-hero-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 55%;
+  display: block;
+}
+.lr-hero-reel { z-index: 1; }
+.lr-hero-still { z-index: 0; }
+@media (max-width: 899px) { .lr-hero-reel { display: none; } }
+
+/* Heaviest where the words are, almost clear where the picture should
+   carry. Bottom fade hands off to the oat of section 02. */
+.lr-hero-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background:
+    linear-gradient(100deg,
+      rgba(243,237,229,0.94) 0%,
+      rgba(243,237,229,0.86) 40%,
+      rgba(243,237,229,0.30) 74%,
+      rgba(243,237,229,0.10) 100%),
+    linear-gradient(to bottom, rgba(243,237,229,0.55) 0%, rgba(243,237,229,0) 18%),
+    linear-gradient(to top, rgba(243,237,229,0.60) 0%, rgba(243,237,229,0) 26%);
+}
+@media (max-width: 899px) {
+  .lr-hero-scrim { background: linear-gradient(to top, rgba(243,237,229,0.95) 30%, rgba(243,237,229,0.70) 100%); }
+}
+
+.lr-hero-fs-inner { position: relative; z-index: 3; width: 100%; }
+
+/* Type on the wash is the same ink and forest used everywhere else. */
+.lr-hero-copy .lr-disp { color: var(--color-forest); }
+.lr-hero-copy p { color: var(--color-ink); }
+.lr-tag {
+  font-family: var(--font-display); font-style: italic;
+  font-size: var(--t-body); color: var(--color-coral);
+  display: block; margin-top: 22px;
+}
+
+/* ------------------------------------------------------------
+   HOMEPAGE NAV. Owned here, not in redesign.css.
+   The hero is light, so the bar is transparent with ink links
+   until it becomes the linen bar on scroll.
+   ------------------------------------------------------------ */
+
+body.home .site-nav:not(.scrolled) {
+  background: transparent;
+  border-bottom-color: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+body.home .site-nav:not(.scrolled) .nav-links a,
+body.home .site-nav:not(.scrolled) .nav-dropdown-trigger { color: var(--color-ink); }
+body.home .site-nav:not(.scrolled) .nav-links a:hover,
+body.home .site-nav:not(.scrolled) .nav-dropdown-trigger:hover { color: var(--color-coral); }
+body.home .site-nav:not(.scrolled) .nav-links a::after { background: var(--color-coral); }
+
+body.home .site-nav:not(.scrolled) .nav-cta {
+  background: var(--color-forest) !important;
+  color: #FFFFFF !important;
+  border-color: transparent !important;
+}
+body.home .site-nav:not(.scrolled) .nav-cta:hover {
+  background: var(--color-coral) !important;
+  color: #FFFFFF !important;
+}
+
+body.home .site-nav:not(.scrolled) .nav-logo { opacity: 1; pointer-events: auto; filter: none; }
+body.home .site-nav:not(.scrolled) .nav-logo-text { color: var(--color-forest); }
+body.home .site-nav:not(.scrolled) .nav-toggle span { background: var(--color-ink); }
+
+/* The Communities panel is a light card in both nav states. */
+body.home .site-nav .nav-links .nav-dropdown .nav-dropdown-inner a { color: var(--color-ink); }
+body.home .site-nav .nav-links .nav-dropdown .nav-dropdown-inner a:hover,
+body.home .site-nav .nav-links .nav-dropdown .nav-dropdown-inner a:focus-visible { color: var(--color-coral); }
+body.home .site-nav .nav-links .nav-dropdown .nav-dropdown-inner .nav-dropdown-label { color: var(--color-earth); }
+body.home .site-nav .nav-links .nav-dropdown .nav-dropdown-inner .nav-dropdown-all { color: var(--color-forest) !important; }
+body.home .site-nav .nav-links .nav-dropdown .nav-dropdown-inner .nav-dropdown-all:hover { color: var(--color-coral) !important; }
+
+/* Scrolled: the linen bar. */
+body.home .site-nav.scrolled .nav-links a,
+body.home .site-nav.scrolled .nav-dropdown-trigger { color: var(--color-earth); }
+body.home .site-nav.scrolled .nav-links a:hover,
+body.home .site-nav.scrolled .nav-dropdown-trigger:hover { color: var(--color-ink); }
+body.home .site-nav.scrolled .nav-links a::after { background: var(--color-coral); }
+body.home .site-nav.scrolled .nav-cta {
+  background: var(--color-forest) !important;
+  color: #FFFFFF !important;
+  border-color: transparent !important;
+}
+body.home .site-nav.scrolled .nav-cta:hover { background: var(--color-coral) !important; }
+body.home .site-nav.scrolled .nav-toggle span { background: var(--color-ink); }
+
+.lr-slot { background: var(--color-sage); display: flex; align-items: center; justify-content: center; padding: 20px; text-align: center; }
+.lr-slot span { font-size: var(--t-label); letter-spacing: 0.16em; text-transform: uppercase; color: var(--color-ink); line-height: 1.7; }
+.lr-slot b { display: block; margin-top: 6px; font-weight: 400; letter-spacing: 0.02em; text-transform: none; font-size: var(--t-small); max-width: 28ch; }
+
+/* ============================================================
+   02 · QUOTE — oat. Writing left, her portrait right.
+   ============================================================ */
+
+.lr-quote-photo img, .lr-quote-photo .lr-slot {
+  width: 100%; display: block;
+  aspect-ratio: 4 / 5; max-height: 460px;
+  object-fit: cover; object-position: 50% 20%;
+}
+
+.lr-quote blockquote {
+  margin: 0;
+  font-family: var(--font-display); font-style: italic;
+  font-size: clamp(1.3rem, 2vw, 1.8rem);
+  line-height: 1.22;
+  color: var(--color-forest);
+  max-width: 22ch;
+}
+
+/* ============================================================
+   03 · LEDGER — linen
+   ============================================================ */
+
+.lr-ledger { width: 100%; border-collapse: collapse; text-align: left; margin-top: 30px; }
+.lr-ledger caption { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.lr-ledger thead th {
+  color: var(--color-earth); padding: 0 0 10px 0;
+  border-bottom: 1px solid var(--color-forest); vertical-align: bottom; white-space: nowrap;
+}
+.lr-ledger tbody th, .lr-ledger tbody td {
+  padding: 18px 0; border-bottom: 1px solid var(--rule);
+  vertical-align: top; font-weight: 400;
+}
+.lr-ledger th + th, .lr-ledger th + td, .lr-ledger td + td { padding-left: clamp(16px, 2vw, 30px); }
+.lr-ledger tbody tr { transition: background 0.3s; }
+.lr-ledger tbody tr:hover { background: rgba(150,180,116,0.3); }
+
+.lr-ledger .c-name { width: 20%; }
+.lr-ledger .c-name a {
+  font-family: var(--font-display); font-style: italic;
+  font-size: 1.2rem; color: var(--color-forest); text-decoration: none; line-height: 1.2; display: inline-block;
+  background-image: linear-gradient(var(--color-coral), var(--color-coral));
+  background-size: 0% 1px; background-repeat: no-repeat; background-position: 0 100%;
+  transition: background-size 0.35s, color 0.25s;
+}
+.lr-ledger .c-name a:hover, .lr-ledger .c-name a:focus-visible { background-size: 100% 1px; color: var(--color-coral); }
+.lr-ledger .c-towns { width: 15%; color: var(--color-earth); line-height: 1.9; }
+.lr-ledger .c-know  { width: 37%; font-size: var(--t-small); line-height: 1.62; max-width: none; }
+.lr-ledger .c-fig   { width: 14%; white-space: nowrap; text-align: right; }
+.lr-ledger th.c-fig { text-align: right; }
+.lr-fig-sub { color: var(--color-earth); display: block; margin-top: 4px; letter-spacing: 0.14em; }
+
+@media (max-width: 880px) {
+  .lr-ledger, .lr-ledger tbody, .lr-ledger tr, .lr-ledger td, .lr-ledger th { display: block; width: auto; }
+
+  /* The percentage widths above are (0,2,0) -- `.lr-ledger .c-name` --
+     while the collapse rule is only (0,1,1), so `width: auto` lost and
+     every cell kept its desktop column width as a percentage of the
+     full-width block. That is what squeezed the county name onto two
+     lines, put each town on its own row, and left the paragraph
+     wrapping at a third of the screen with dead space beside it. */
+  .lr-ledger .c-name,
+  .lr-ledger .c-towns,
+  .lr-ledger .c-know,
+  .lr-ledger .c-fig { width: auto; max-width: none; }
+
+  .lr-ledger .c-name a { font-size: 1.45rem; }
+  .lr-ledger .c-towns { line-height: 1.5; padding-bottom: 14px; }
+  .lr-ledger .c-know { font-size: var(--t-body); }
+  .lr-ledger thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .lr-ledger tbody tr { border-bottom: 1px solid var(--rule); padding-block: 20px; }
+  .lr-ledger tbody th, .lr-ledger tbody td { border: 0; padding: 0 0 10px 0; text-align: left; }
+  .lr-ledger .c-fig { display: inline-block; width: auto; padding-right: 36px; text-align: left; }
+}
+
+/* ============================================================
+   04 · THE DRIVE — oat
+   ============================================================ */
+
+.lr-bars { width: 100%; border-collapse: collapse; }
+.lr-bars caption { caption-side: top; text-align: left; color: var(--color-earth); padding-bottom: 14px; letter-spacing: 0.16em; }
+.lr-bars thead th { color: var(--color-earth); border-bottom: 1px solid var(--rule); padding-bottom: 9px; }
+.lr-bars th, .lr-bars td { padding: 9px 0; vertical-align: middle; font-weight: 400; }
+.lr-bars tbody th { text-align: left; font-size: var(--t-small); white-space: nowrap; padding-right: 16px; color: var(--color-ink); }
+.lr-bars .b-track { width: 100%; padding-right: 16px; }
+.lr-bars .b-track span { display: block; height: 9px; background: var(--color-earth); border-radius: 0 4px 4px 0; min-width: 3px; }
+/* Headers keep the label step. Only body cells take the figure step. */
+.lr-bars th.b-val, .lr-bars th.b-miles { text-align: right; white-space: nowrap; letter-spacing: 0.1em; }
+.lr-bars th.b-val { width: 72px; }
+.lr-bars th.b-miles { width: 76px; padding-left: 18px; }
+.lr-bars tbody .b-val { text-align: right; white-space: nowrap; font-size: var(--t-figure); font-weight: 500; color: var(--color-forest); }
+.lr-bars tbody .b-miles { text-align: right; white-space: nowrap; font-size: var(--t-small); color: var(--color-earth); padding-left: 18px; }
+
+/* (stray brace removed 2026-09-01 -- it truncated the rest of this file,
+   which is why .lr-beats / .lr-entries never got their grid) */
+
+/* ============================================================
+   05 · WORKING WITH ME — linen. Equal cards, allowed.
+   ============================================================ */
+
+.lr-beats, .lr-entries {
+  display: grid;
+  /* Three, always. auto-fit left a collapsed fourth track that ate a
+     gap's worth of width off the right edge. Both blocks hold exactly
+     three items, so the count is not a guess. */
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(22px, 3vw, 46px);
+  margin-top: 30px;
+  border-top: 1px solid var(--color-forest);
+  padding-top: 28px;
+}
+.lr-beats p, .lr-entries p { font-size: var(--t-small); line-height: 1.62; max-width: none; }
+.lr-beat-n { font-family: var(--font-display); font-style: italic; font-size: var(--t-display-s); color: var(--color-coral); display: block; margin-bottom: 8px; }
+.lr-beat h3, .lr-entry h3 { margin: 0 0 8px 0; }
+/* system.css gives every .lr h3.lr-disp a 1.9em top margin, which outranks
+   the rule above and pushed each numeral a full line away from its heading.
+   Numeral sits directly on top of its heading. */
+.lr .lr-beat h3.lr-disp, .lr .lr-entry h3.lr-disp { margin-top: 0; }
+.lr-beat-n { line-height: 1; margin-bottom: 6px; }
+
+/* Three across on desktop, stacked on phones. No two-up state: three
+   items in two columns leaves an orphan. */
+@media (max-width: 860px) {
+  .lr-beats, .lr-entries { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   06 · THE WRITING — oat
+   ============================================================ */
+
+.lr-entry-thumb { margin-bottom: 14px; }
+.lr-entry-thumb img { width: 100%; height: auto; display: block; aspect-ratio: 2 / 1; object-fit: cover; background: var(--color-sage); }
+
+/* Condensed writing cards. Desktop: shorter 16:9 thumbs, smaller titles.
+   Phones: each post becomes a compact row, square thumb on the left,
+   title and excerpt on the right, instead of three full-width photos. */
+.lr .lr-entry h3.lr-disp { font-size: clamp(18px, 1.5vw, 22px); line-height: 1.25; }
+.lr-entries p { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+@media (max-width: 860px) {
+  .lr-entries { gap: 18px; }
+  .lr-entry { display: grid; grid-template-columns: 96px 1fr; column-gap: 16px; align-items: start; }
+  .lr-entry-thumb { grid-row: 1 / span 2; margin-bottom: 0; }
+  .lr-entry-thumb img { aspect-ratio: 1 / 1; }
+  .lr .lr-entry h3.lr-disp { font-size: 18px; margin-bottom: 4px; }
+  .lr-entries p { font-size: 14px; }
+}
+.lr-entry h3 a { color: var(--color-forest); text-decoration: none; transition: color 0.25s; }
+.lr-entry h3 a:hover, .lr-entry h3 a:focus-visible { color: var(--color-coral); }
+.lr-entries p { color: var(--color-earth); }
+
+/* ============================================================
+   07 · ABOUT — linen
+   ============================================================ */
+
+.lr-about img, .lr-about .lr-slot { width: 100%; display: block; aspect-ratio: 4 / 5; max-height: 400px; object-fit: cover; }
+.lr-pull {
+  font-family: var(--font-display); font-style: italic;
+  font-size: 1.1rem; line-height: 1.45;
+  color: var(--color-coral);
+  border-left: 2px solid var(--color-coral);
+  padding-left: 18px; margin-top: 20px; max-width: var(--measure);
+}
+
+/* ============================================================
+   MOTION
+   ============================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .lr-ledger tbody tr, .lr-entry h3 a { transition: none; }
+}
+

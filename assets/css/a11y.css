@@ -1,0 +1,331 @@
+/* ============================================================
+   AMBER RANDHAWA — ACCESSIBILITY TOOLBAR
+   Msndrstd Creative
+   Custom-built ADA toolbar (no third-party overlay).
+   Colors match the locked Georgia Deep brand palette.
+   ============================================================ */
+
+/* ----------------------------------------------------------
+   SKIP LINK
+   ---------------------------------------------------------- */
+.a11y-skip-link {
+  position: absolute;
+  top: -100px;
+  left: 0.5rem;
+  z-index: 100000;
+  background: var(--color-forest, #273B29);
+  color: var(--color-linen, #F3EDE5);
+  padding: 0.85rem 1.25rem;
+  border-radius: 4px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: top 0.2s ease;
+}
+.a11y-skip-link:focus {
+  top: 0.5rem;
+}
+
+/* ----------------------------------------------------------
+   TOGGLE BUTTON
+   ---------------------------------------------------------- */
+.a11y-toggle {
+  position: fixed;
+  bottom: 22px;
+  right: 22px;
+  z-index: 99998;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-forest, #273B29);
+  color: var(--color-linen, #F3EDE5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(26, 34, 25, 0.35);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+.a11y-toggle:hover,
+.a11y-toggle:focus-visible {
+  transform: scale(1.06);
+  background: var(--color-ink, #1A2219);
+}
+.a11y-toggle svg {
+  width: 28px;
+  height: 28px;
+}
+
+/* ----------------------------------------------------------
+   PANEL
+   ---------------------------------------------------------- */
+.a11y-panel {
+  position: fixed;
+  bottom: 88px;
+  right: 22px;
+  z-index: 99999;
+  width: 300px;
+  max-width: calc(100vw - 32px);
+  max-height: min(560px, calc(100vh - 120px));
+  overflow-y: auto;
+  background: var(--color-linen, #F3EDE5);
+  color: var(--color-ink, #1A2219);
+  border: 1px solid var(--color-sage, #96B474);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(26, 34, 25, 0.28);
+  padding: 1.1rem;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.4;
+  transform: translateY(8px) scale(0.98);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+}
+.a11y-panel.is-open {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.a11y-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid var(--color-sage, #96B474);
+}
+.a11y-panel-header h2 {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-forest, #273B29);
+  margin: 0;
+}
+.a11y-panel-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-earth, #6B5B4E);
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+}
+.a11y-panel-close:hover,
+.a11y-panel-close:focus-visible {
+  background: var(--color-sage, #96B474);
+  color: var(--color-linen, #F3EDE5);
+}
+
+.a11y-group {
+  margin-bottom: 0.9rem;
+}
+.a11y-group-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-earth, #6B5B4E);
+  margin-bottom: 0.4rem;
+}
+
+.a11y-btn-row {
+  display: flex;
+  gap: 6px;
+}
+
+.a11y-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 8px;
+  padding: 0.6rem 0.7rem;
+  margin-bottom: 6px;
+  border: 1px solid var(--color-sage, #96B474);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--color-ink, #1A2219);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+.a11y-option:hover,
+.a11y-option:focus-visible {
+  border-color: var(--color-forest, #273B29);
+}
+.a11y-option[aria-pressed="true"] {
+  background: var(--color-forest, #273B29);
+  border-color: var(--color-forest, #273B29);
+  color: var(--color-linen, #F3EDE5);
+}
+.a11y-option-check {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  visibility: hidden;
+}
+.a11y-option[aria-pressed="true"] .a11y-option-check {
+  visibility: visible;
+}
+
+.a11y-step-btn {
+  flex: 1;
+  padding: 0.55rem 0;
+  border: 1px solid var(--color-sage, #96B474);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--color-ink, #1A2219);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.a11y-step-btn:hover,
+.a11y-step-btn:focus-visible {
+  border-color: var(--color-forest, #273B29);
+  background: var(--color-sage, #96B474);
+  color: var(--color-linen, #F3EDE5);
+}
+
+.a11y-reset {
+  width: 100%;
+  padding: 0.6rem 0;
+  margin-top: 0.3rem;
+  border: 1px solid var(--color-coral, #AD5138);
+  border-radius: 6px;
+  background: var(--color-coral, #AD5138);
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+.a11y-reset:hover,
+.a11y-reset:focus-visible {
+  background: var(--color-earth, #6B5B4E);
+  color: var(--color-linen, #F3EDE5);
+  border-color: var(--color-earth, #6B5B4E);
+}
+
+.a11y-panel :focus-visible {
+  outline: 3px solid var(--color-coral, #AD5138);
+  outline-offset: 2px;
+}
+
+/* ----------------------------------------------------------
+   APPLIED STATES (act on <html>)
+   ---------------------------------------------------------- */
+
+/* Text size — steps applied as % of base */
+html.a11y-text-1 { font-size: 112% !important; }
+html.a11y-text-2 { font-size: 125% !important; }
+html.a11y-text-3 { font-size: 140% !important; }
+
+/* Readable line height + spacing */
+html.a11y-readable body,
+html.a11y-readable p,
+html.a11y-readable li {
+  line-height: 1.9 !important;
+  letter-spacing: 0.01em !important;
+  word-spacing: 0.06em !important;
+}
+
+/* Dyslexia-friendly font — simple humanist sans, no external font load */
+html.a11y-dyslexia body,
+html.a11y-dyslexia h1,
+html.a11y-dyslexia h2,
+html.a11y-dyslexia h3,
+html.a11y-dyslexia h4,
+html.a11y-dyslexia p,
+html.a11y-dyslexia a,
+html.a11y-dyslexia li,
+html.a11y-dyslexia span,
+html.a11y-dyslexia button {
+  font-family: Verdana, Tahoma, "Trebuchet MS", sans-serif !important;
+  letter-spacing: 0.02em !important;
+  word-spacing: 0.08em !important;
+}
+
+/* Underline all links for clarity */
+html.a11y-underline-links a {
+  text-decoration: underline !important;
+  text-underline-offset: 3px;
+}
+
+/* High contrast mode */
+html.a11y-high-contrast body {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+html.a11y-high-contrast .site-nav,
+html.a11y-high-contrast .site-nav.scrolled {
+  background: #000000 !important;
+}
+html.a11y-high-contrast .site-nav a,
+html.a11y-high-contrast .nav-logo-text {
+  color: #ffffff !important;
+}
+html.a11y-high-contrast a {
+  color: #0000EE !important;
+}
+html.a11y-high-contrast a:visited {
+  color: #551A8B !important;
+}
+html.a11y-high-contrast * {
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+html.a11y-high-contrast img,
+html.a11y-high-contrast video {
+  filter: grayscale(20%) contrast(1.1);
+}
+html.a11y-high-contrast section,
+html.a11y-high-contrast footer,
+html.a11y-high-contrast .footer-compliance {
+  background: #ffffff !important;
+  color: #000000 !important;
+  border-color: #000000 !important;
+}
+html.a11y-high-contrast button,
+html.a11y-high-contrast .nav-cta {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 2px solid #000000 !important;
+}
+
+/* Reduce motion — CSS side; JS also stops Lenis smooth scroll */
+html.a11y-reduce-motion,
+html.a11y-reduce-motion * {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* Big cursor */
+html.a11y-big-cursor,
+html.a11y-big-cursor * {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"><path fill="%23273B29" stroke="%23F3EDE5" stroke-width="1" d="M4 2l14 8-6 2 3 7-3 1-3-7-5 4z"/></svg>') 4 4, auto !important;
+}
+
+/* ----------------------------------------------------------
+   RESPONSIVE
+   ---------------------------------------------------------- */
+@media (max-width: 480px) {
+  .a11y-panel {
+    right: 12px;
+    bottom: 80px;
+    width: calc(100vw - 24px);
+  }
+  .a11y-toggle {
+    right: 12px;
+    bottom: 12px;
+  }
+}
