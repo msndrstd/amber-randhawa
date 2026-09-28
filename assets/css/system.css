@@ -742,39 +742,29 @@ body.single .site-nav { border-bottom-color: rgba(39, 59, 41, 0.08); }
 body.blog .lr-cards,
 body.archive .lr-cards,
 body.home .lr-cards--posts {
-  grid-template-columns: 1fr;
-  max-width: 60rem;
-  gap: 0;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: none;
 }
 
-/* Condensed 2026-09-28: each post is a row, photo left, text right,
-   instead of a full-width photo stacked over the text. */
-body.blog .lr-card,
-body.archive .lr-card {
-  display: grid;
-  grid-template-columns: 240px 1fr;
-  column-gap: clamp(20px, 3vw, 36px);
-  align-items: start;
-  padding: 24px 0;
-  border-bottom: 1px solid color-mix(in srgb, var(--color-forest) 18%, transparent);
-}
-body.blog .lr-card:first-child,
-body.archive .lr-card:first-child { padding-top: 0; }
-body.blog .lr-card > :not(.lr-card-thumb),
-body.archive .lr-card > :not(.lr-card-thumb) { grid-column: 2; }
-body.blog .lr-card-thumb,
-body.archive .lr-card-thumb { grid-column: 1; grid-row: 1 / span 3; margin-bottom: 0; }
+/* Writing archive, 2026-09-28: posts run across the page, three to a row,
+   with short 2:1 thumbs. Phones get compact rows, square thumb left. */
+body.blog .lr-card-thumb img,
+body.archive .lr-card-thumb img { aspect-ratio: 2 / 1; }
 body.blog .lr-card h2.lr-disp,
 body.archive .lr-card h2.lr-disp { margin: 0 0 6px; }
 body.blog .lr-card p,
-body.archive .lr-card p { margin: 0; }
-@media (max-width: 640px) {
+body.archive .lr-card p { margin: 0; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+@media (max-width: 860px) {
+  body.blog .lr-cards,
+  body.archive .lr-cards { grid-template-columns: 1fr; gap: 18px; }
   body.blog .lr-card,
-  body.archive .lr-card { grid-template-columns: 96px 1fr; column-gap: 16px; padding: 18px 0; }
+  body.archive .lr-card { display: grid; grid-template-columns: 96px 1fr; column-gap: 16px; align-items: start; }
+  body.blog .lr-card > :not(.lr-card-thumb),
+  body.archive .lr-card > :not(.lr-card-thumb) { grid-column: 2; }
+  body.blog .lr-card-thumb,
+  body.archive .lr-card-thumb { grid-column: 1; grid-row: 1 / span 3; margin-bottom: 0; }
   body.blog .lr-card-thumb img,
   body.archive .lr-card-thumb img { aspect-ratio: 1 / 1; }
-  body.blog .lr-card p,
-  body.archive .lr-card p { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
 }
 
 /* A question heading that follows prose inside a document column needs
