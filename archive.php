@@ -9,22 +9,25 @@
 get_header();
 
 $is_blog = is_home() || is_post_type_archive( 'post' );
-if ( is_category() || is_tag() || is_tax() ) {
+if ( is_category( 'writing' ) ) {
+    $head_title = 'The writing';
+    $head_lede  = 'Local history, family stories, and the occasional electric fence.';
+} elseif ( is_category() || is_tag() || is_tax() ) {
     $head_title = single_term_title( '', false );
     $head_lede  = term_description() ? wp_strip_all_tags( term_description() ) : '';
 } elseif ( is_search() ) {
     $head_title = 'Search: ' . get_search_query();
     $head_lede  = '';
 } else {
-    $head_title = 'The writing';
-    $head_lede  = 'Local history, family stories, and the occasional electric fence.';
+    $head_title = 'The blog';
+    $head_lede  = 'Plain answers about buying, selling and living in Paulding County and northwest Georgia.';
 }
 
 $trail = [ [ 'label' => 'Home', 'url' => home_url( '/' ) ] ];
-if ( is_category() || is_tag() || is_tax() ) {
-    $trail[] = [ 'label' => 'Writing', 'url' => home_url( '/blog' ) ];
+if ( ( is_category() || is_tag() || is_tax() ) && ! is_category( 'writing' ) ) {
+    $trail[] = [ 'label' => 'Blog', 'url' => home_url( '/blog' ) ];
 }
-$trail[] = [ 'label' => $head_title ];
+$trail[] = [ 'label' => is_category( 'writing' ) ? 'Writing' : ( is_home() ? 'Blog' : $head_title ) ];
 ?>
 
 <main class="lr" id="main">

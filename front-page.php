@@ -98,7 +98,7 @@ $drive_max = 90;
         <p>There’s no crossroads in Polk, Paulding or Haralson County that I can’t tell you some sort of story about, and more times than not it will even be true. I can tell you which backroads will get you somewhere faster, and which roads are prone to flooding out in the spring storms. I know which little downtown areas tend to be speed traps, and which gas station parking lots have the best boiled peanuts. I can even tell you which bent trees mark the direction to a water source, because according to local legends, the Cherokee marked them that way before they were forced off this land nearly 200 years ago.</p>
         <div class="lr-actions">
           <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="lr-btn">Come sit a spell</a>
-          <a href="<?php echo esc_url( home_url( '/blog' ) ); ?>" class="lr-btn lr-btn--ghost">Read the writing</a>
+          <a href="<?php echo esc_url( home_url( '/writing/' ) ); ?>" class="lr-btn lr-btn--ghost">Read the writing</a>
         </div>
         <span class="lr-tag">&ldquo;I can&rsquo;t wait to take you home.&rdquo;</span>
       </div>
@@ -247,7 +247,20 @@ $drive_max = 90;
 
       <div class="lr-entries lr-rise">
         <?php
-        $q = new WP_Query( [ 'posts_per_page' => 3, 'ignore_sticky_posts' => true ] );
+        /* One of Amber's own pieces first, then the two newest blog posts.
+           Three cards keeps the row full, and the blog slots refresh every
+           Monday, so the homepage always links to the newest post. */
+        $wid  = function_exists( 'ar_writing_cat_id' ) ? ar_writing_cat_id() : 0;
+        $ids  = [];
+        if ( $wid ) {
+            $ids = array_merge(
+                get_posts( [ 'fields' => 'ids', 'numberposts' => 1, 'category' => $wid ] ),
+                get_posts( [ 'fields' => 'ids', 'numberposts' => 2, 'category__not_in' => [ $wid ] ] )
+            );
+        }
+        $q = $ids
+            ? new WP_Query( [ 'post__in' => $ids, 'orderby' => 'post__in', 'posts_per_page' => 3, 'ignore_sticky_posts' => true ] )
+            : new WP_Query( [ 'posts_per_page' => 3, 'ignore_sticky_posts' => true ] );
         if ( $q->have_posts() ) : while ( $q->have_posts() ) : $q->the_post();
         ?>
           <article class="lr-entry">
@@ -261,7 +274,8 @@ $drive_max = 90;
       </div>
 
       <div class="lr-actions lr-actions--center">
-        <a href="<?php echo esc_url( home_url( '/blog' ) ); ?>" class="lr-btn lr-btn--ghost lr-btn--wide">All posts</a>
+        <a href="<?php echo esc_url( home_url( '/writing/' ) ); ?>" class="lr-btn lr-btn--ghost lr-btn--wide">All writing</a>
+        <a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>" class="lr-btn lr-btn--ghost lr-btn--wide">The blog</a>
       </div>
     </div>
   </section>

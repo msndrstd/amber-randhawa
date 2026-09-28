@@ -458,13 +458,16 @@ function ar_meta_description() {
         'guides'                         => "The questions people actually ask Amber Randhawa about living in northwest Georgia, answered with numbers and the method behind them.",
         'commuting-to-atlanta'           => "Measured drive times to downtown Atlanta, the airport, and Cobb County from six northwest Georgia towns, with the method published.",
         'property-taxes'                 => "What actually changed about Georgia property taxes, what a millage rate is, and how to figure out the real bill on a real house. Amber Randhawa explains.",
-        'blog'                           => "Local history, family stories, and the occasional electric fence. Writing from Amber Randhawa in northwest Georgia.",
+        'blog'                           => "Plain answers about buying, selling and living in Paulding County and northwest Georgia, from Realtor Amber Randhawa.",
+        'writing'                        => "Local history, family stories, and the occasional electric fence. Writing from Amber Randhawa in northwest Georgia.",
     ];
 
     if ( is_front_page() ) {
         $desc = "Amber Randhawa is a real estate agent and lifelong Northwest Georgia local. She covers metro Atlanta and northwest Georgia, including Cobb, Paulding, Haralson, Carroll, and Polk counties. Real stories, real local knowledge, no template agent website.";
     } elseif ( is_home() && isset( $by_slug['blog'] ) ) {
         $desc = $by_slug['blog'];
+    } elseif ( is_category( 'writing' ) ) {
+        $desc = $by_slug['writing'];
     } elseif ( is_page() && isset( $by_slug[ get_post_field( 'post_name', get_queried_object_id() ) ] ) ) {
         $desc = $by_slug[ get_post_field( 'post_name', get_queried_object_id() ) ];
     } elseif ( is_singular( 'post' ) ) {
@@ -555,3 +558,46 @@ function ar_schema_json_ld() {
     echo '<script type="application/ld+json">' . wp_json_encode( $schema, JSON_UNESCAPED_SLASHES ) . '</script>' . "\n";
 }
 add_action( 'wp_head', 'ar_schema_json_ld' );
+
+/* ============================================================
+   WRITING vs BLOG (2026-09-28)
+   Amber's own writing lives in the "Writing" category and is served at
+   /writing/. Everything else is the Blog at /blog/ (the posts page).
+   The Blog excludes Writing, and Writing never appears in the Blog.
+   ============================================================ */
+function ar_writing_cat_id() {
+    static $id = null;
+    if ( null === $id ) {
+        $t  = get_term_by( 'slug', 'writing', 'category' );
+        $id = $t ? (int) $t->term_id : 0;
+    }
+    return $id;
+}
+
+add_action( 'init', function () {
+    add_rewrite_rule( '^writing/?$', 'index.php?category_name=writing', 'top' );
+    add_rewrite_rule( '^writing/page/([0-9]+)/?$', 'index.php?category_name=writing&paged=$matches[1]', 'top' );
+    if ( get_option( 'ar_rewrite_ver' ) !== 'writing-1' ) {
+        flush_rewrite_rules( false );
+        update_option( 'ar_rewrite_ver', 'writing-1' );
+    }
+} );
+
+add_filter( 'term_link', function ( $url, $term, $taxonomy ) {
+    if ( 'category' === $taxonomy && 'writing' === $term->slug ) {
+        return home_url( '/writing/' );
+    }
+    return $url;
+}, 10, 3 );
+
+add_action( 'pre_get_posts', function ( $q ) {
+    if ( is_admin() || ! $q->is_main_query() ) { return; }
+    if ( $q->is_home() && ar_writing_cat_id() ) {
+        $q->set( 'category__not_in', [ ar_writing_cat_id() ] );
+    }
+} );
+
+/** True when a post (default: current) is Amber's own writing. */
+function ar_is_writing( $post = null ) {
+    return ar_writing_cat_id() && has_category( ar_writing_cat_id(), $post );
+}

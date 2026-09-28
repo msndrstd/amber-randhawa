@@ -185,7 +185,8 @@ setTimeout(function () {
               <a href="<?php echo esc_url( get_permalink( $ar_guides_page ) ); ?>">Guides</a>
               <?php endif; ?>
             <?php endif; ?>
-            <a href="<?php echo esc_url( home_url( '/blog' ) ); ?>">Writing</a>
+            <a href="<?php echo esc_url( home_url( '/writing/' ) ); ?>">Writing</a>
+            <a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">Blog</a>
             <a href="<?php echo esc_url( home_url( '/faq' ) ); ?>">FAQ</a>
             <a href="<?php echo esc_url( home_url( '/contact' ) ); ?>" class="nav-cta">Let's talk</a>
 

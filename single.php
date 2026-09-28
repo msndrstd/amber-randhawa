@@ -32,11 +32,12 @@ $_ar_schema = [
 ];
 if ( $feat_img ) { $_ar_schema['image'] = $feat_img; }
 
+$ar_writing = function_exists( 'ar_is_writing' ) && ar_is_writing();
 $trail = [
     [ 'label' => 'Home', 'url' => home_url( '/' ) ],
-    [ 'label' => 'Writing', 'url' => home_url( '/blog' ) ],
+    $ar_writing ? [ 'label' => 'Writing', 'url' => home_url( '/writing/' ) ] : [ 'label' => 'Blog', 'url' => home_url( '/blog/' ) ],
 ];
-if ( $cat_name ) { $trail[] = [ 'label' => $cat_name, 'url' => $cat_link ]; }
+if ( $cat_name && ! $ar_writing ) { $trail[] = [ 'label' => $cat_name, 'url' => $cat_link ]; }
 $trail[] = [ 'label' => get_the_title() ];
 ?>
 <script type="application/ld+json"><?php echo wp_json_encode( $_ar_schema, JSON_UNESCAPED_SLASHES ); ?></script>
@@ -94,8 +95,16 @@ $trail[] = [ 'label' => get_the_title() ];
   </section>
 
   <?php
-  $prev = get_previous_post();
-  $next = get_next_post();
+  /* Writing and Blog never cross-link: Amber's writing pages to her other
+     writing, blog posts page to other blog posts. */
+  if ( $ar_writing ) {
+      $prev = get_previous_post( true );
+      $next = get_next_post( true );
+  } else {
+      $ex   = function_exists( 'ar_writing_cat_id' ) && ar_writing_cat_id() ? [ ar_writing_cat_id() ] : [];
+      $prev = get_previous_post( false, $ex );
+      $next = get_next_post( false, $ex );
+  }
   if ( $prev || $next ) : ?>
     <section class="lr-sec lr-sec--tight lr-ground-oat">
       <div class="lr-wrap">
@@ -118,7 +127,7 @@ $trail[] = [ 'label' => get_the_title() ];
           <?php endif; ?>
         </div>
         <div class="lr-actions lr-actions--center">
-          <a class="lr-btn lr-btn--ghost lr-btn--wide" href="<?php echo esc_url( home_url( '/blog' ) ); ?>">All posts</a>
+          <a class="lr-btn lr-btn--ghost lr-btn--wide" href="<?php echo esc_url( home_url( $ar_writing ? '/writing/' : '/blog/' ) ); ?>"><?php echo $ar_writing ? 'All writing' : 'All posts'; ?></a>
         </div>
       </div>
     </section>

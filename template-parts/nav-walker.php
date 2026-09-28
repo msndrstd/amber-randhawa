@@ -36,7 +36,8 @@ class AR_Nav_Walker extends Walker_Nav_Menu {
 function ar_fallback_nav() {
     $links = [
         'About'   => '/about',
-        'Writing' => '/blog',
+        'Writing' => '/writing/',
+        'Blog'    => '/blog/',
         'Contact' => '/contact',
     ];
     foreach ( $links as $label => $path ) {

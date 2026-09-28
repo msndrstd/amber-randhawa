@@ -43,7 +43,8 @@
                     <?php if ( $ar_guides_page && 'publish' === $ar_guides_page->post_status ) : ?>
                     <li><a href="<?php echo esc_url( get_permalink( $ar_guides_page ) ); ?>">Guides</a></li>
                     <?php endif; ?>
-                    <li><a href="<?php echo esc_url( home_url( '/blog' ) ); ?>">Writing</a></li>
+                    <li><a href="<?php echo esc_url( home_url( '/writing/' ) ); ?>">Writing</a></li>
+                    <li><a href="<?php echo esc_url( home_url( '/blog/' ) ); ?>">Blog</a></li>
                     <li><a href="<?php echo esc_url( home_url( '/contact' ) ); ?>">Contact</a></li>
                     <li><a href="<?php echo esc_url( 'https://amberrandhawa.kw.com' ); ?>" target="_blank" rel="noopener">Listings</a></li>
                 </ul>
