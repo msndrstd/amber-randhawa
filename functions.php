@@ -941,3 +941,23 @@ function ar_display_title( $post = 0 ) {
     $title = esc_html( wp_strip_all_tags( get_the_title( $post ) ) );
     return preg_replace( '/((?:…|&#8230;|&hellip;|\.{3})+\.*)(?=[^\s<])/u', '$1<wbr>', $title );
 }
+
+/**
+ * Favicon, 2026-09-29. The WP Site Icon was a pale sage signature on white
+ * JPEG; at 16-32px it vanished in the tab. Theme now ships a forest tile with
+ * a cream AR mark (assets/icons/) and outputs its own tags instead.
+ */
+remove_action( 'wp_head', 'wp_site_icon', 99 );
+add_action( 'wp_head', function () {
+    $d = get_template_directory_uri() . '/assets/icons/';
+    $v = '?v=' . filemtime( get_template_directory() . '/assets/icons/favicon.ico' );
+    echo '<link rel="icon" href="' . esc_url( $d . 'favicon.ico' . $v ) . '" sizes="48x48">' . "\n";
+    echo '<link rel="icon" href="' . esc_url( $d . 'favicon.svg' . $v ) . '" type="image/svg+xml">' . "\n";
+    echo '<link rel="icon" href="' . esc_url( $d . 'icon-192.png' . $v ) . '" type="image/png" sizes="192x192">' . "\n";
+    echo '<link rel="apple-touch-icon" href="' . esc_url( $d . 'apple-touch-icon.png' . $v ) . '">' . "\n";
+}, 99 );
+// Requests for /favicon.ico (Safari, Google) go to the theme file.
+add_action( 'do_favicon', function () {
+    wp_redirect( get_template_directory_uri() . '/assets/icons/favicon.ico', 301 );
+    exit;
+}, 1 );
