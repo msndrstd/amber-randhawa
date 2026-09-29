@@ -42,13 +42,14 @@ document.addEventListener('DOMContentLoaded', () => {
       // Homepage: scroll-triggered
       // The linen bar arrives early, well before the hero is cleared.
       const heroEl = document.querySelector('.lr-hero-fs, .hero');
-      const getThreshold = () => heroEl ? Math.min(heroEl.offsetHeight * 0.18, 150) : 150;
+      // 2026-09-29: bar arrives almost immediately so text never scrolls under a bare logo.
+      const getThreshold = () => 12;
       const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > getThreshold());
       window.addEventListener('scroll', onScroll, { passive: true });
       onScroll();
     } else {
       // Sub-pages: scroll-triggered (low threshold — transitions quickly after first scroll)
-      const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 60);
+      const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 12);
       window.addEventListener('scroll', onScroll, { passive: true });
       onScroll();
     }

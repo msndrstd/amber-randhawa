@@ -149,7 +149,7 @@ button {
   align-items: center;
   background: transparent;
   border-bottom: 1px solid transparent;
-  transition: background 0.5s var(--ease-out), border-color 0.5s var(--ease-out);
+  transition: background 0.25s var(--ease-out), border-color 0.25s var(--ease-out);
 }
 
 /* Pre-scroll: linen elements (readable over dark hero photos/video) */
