@@ -57,7 +57,7 @@ $trail[] = [ 'label' => is_category( 'writing' ) ? 'Writing' : ( is_home() ? 'Bl
               <?php endif; ?>
               <span class="lr-card-meta"><?php echo esc_html( get_the_date( 'F j, Y' ) ); ?></span>
               <h2 class="lr-disp" style="font-size: var(--t-display-s); line-height: 1.25;">
-                <a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+                <a href="<?php the_permalink(); ?>"><?php echo ar_display_title(); ?></a>
               </h2>
               <p><?php echo esc_html( wp_trim_words( get_the_excerpt(), 26 ) ); ?></p>
             </article>

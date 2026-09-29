@@ -49,7 +49,7 @@ $trail[] = [ 'label' => get_the_title() ];
   <header class="lr-head">
     <div class="lr-wrap">
       <?php get_template_part( 'template-parts/crumbs', null, [ 'trail' => $trail ] ); ?>
-      <h1 class="lr-disp"><?php the_title(); ?></h1>
+      <h1 class="lr-disp"><?php echo ar_display_title(); ?></h1>
       <span class="lr-mark" aria-hidden="true"></span>
       <p class="lr-lede">
         <?php echo esc_html( get_the_date( 'F j, Y' ) ); ?><?php if ( get_the_modified_date( 'Ymd' ) > get_the_date( 'Ymd' ) ) : ?> &middot; Updated <?php echo esc_html( get_the_modified_date( 'F j, Y' ) ); ?><?php endif; ?>

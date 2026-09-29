@@ -25,9 +25,12 @@
 
 .lr-hero-fs {
   position: relative;
-  min-height: 560px;
-  height: 100vh;
-  height: 100svh;
+  /* MIN-height, never height. The copy is two long paragraphs; on a
+     phone it is taller than the screen, and a fixed 100svh with
+     overflow:hidden + centring pushed the H1 off the top and slid the
+     paragraph up under the fixed nav (fixed 2026-09-28). */
+  min-height: max(560px, 100vh);
+  min-height: max(560px, 100svh);
   display: flex;
   align-items: center;
   padding-top: var(--nav-height, 90px);

@@ -930,3 +930,14 @@ function ar_extra_guide_meta() {
         'living-near-silver-comet-trail' => 'Homes near the Silver Comet Trail in Georgia: trailheads by town and county, parking, what backing up to the trail is like, and how to check a parcel.',
     ];
 }
+
+/**
+ * Title for visible headings only. Adds a <wbr> break opportunity after an
+ * ellipsis that runs straight into the next word ("Draketown….Unincorporated"),
+ * which is otherwise one unbreakable word wider than a phone column.
+ * Wording is untouched. Do not use in attributes, schema or <title>.
+ */
+function ar_display_title( $post = 0 ) {
+    $title = esc_html( wp_strip_all_tags( get_the_title( $post ) ) );
+    return preg_replace( '/((?:…|&#8230;|&hellip;|\.{3})+\.*)(?=[^\s<])/u', '$1<wbr>', $title );
+}

@@ -267,7 +267,7 @@ $drive_max = 90;
             <?php if ( has_post_thumbnail() ) : ?>
               <div class="lr-entry-thumb"><a href="<?php the_permalink(); ?>" tabindex="-1" aria-hidden="true"><?php the_post_thumbnail( 'medium_large' ); ?></a></div>
             <?php endif; ?>
-            <h3 class="lr-disp"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h3>
+            <h3 class="lr-disp"><a href="<?php the_permalink(); ?>"><?php echo ar_display_title(); ?></a></h3>
             <p><?php echo esc_html( wp_trim_words( get_the_excerpt(), 22 ) ); ?></p>
           </article>
         <?php endwhile; wp_reset_postdata(); endif; ?>

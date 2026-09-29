@@ -772,3 +772,17 @@ body.archive .lr-card p { margin: 0; display: -webkit-box; -webkit-line-clamp: 3
    question ran straight into the answer before it (commute guide). */
 .lr .lr-doc-main p + h2.lr-disp,
 .lr .lr-doc-main .lr-tablescroll + h2.lr-disp { margin-top: clamp(40px, 5vw, 64px); }
+
+/* ── Grid blowout guard, 2026-09-28 ───────────────────────────
+   A 1fr track floors at its item's min-content width, and the
+   line-clamped excerpts (display:-webkit-box) report a huge
+   min-content. On a 375px phone that pushed the home Writing rows
+   and the /writing/ cards 25px past the gutter, where main's
+   overflow clip cut the text off at the screen edge. min-width:0
+   lets the tracks shrink to the column; min() keeps the auto-fit
+   card minimums from exceeding a narrow phone's width. */
+.lr-cards > *, .lr-entries > *, .lr-beats > *,
+.lr-card > *, .lr-entry > * { min-width: 0; }
+.lr-cards { grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); }
+.lr-cards--2 { grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); }
+.lr-card h2, .lr-card h3, .lr-entry h3 { overflow-wrap: break-word; }
