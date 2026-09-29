@@ -786,3 +786,31 @@ body.archive .lr-card p { margin: 0; display: -webkit-box; -webkit-line-clamp: 3
 .lr-cards { grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr)); }
 .lr-cards--2 { grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); }
 .lr-card h2, .lr-card h3, .lr-entry h3 { overflow-wrap: break-word; }
+
+/* ── Breadcrumb bar, 2026-09-29 ───────────────────────────────
+   Crumbs sit in a thin sage bar pinned directly under the main menu.
+   .lr-crumbbar stays in the page flow as a spacer so the H1 keeps its
+   place; the <nav> inside is the fixed bar. Phones: the bar sits in
+   the same spot and tucks up behind the menu once the page scrolls,
+   so it does not eat screen height while reading. Colours on sage:
+   ink 7.05, forest 5.21. */
+.lr-crumbbar { height: 44px; margin-bottom: 4px; }
+.lr .lr-crumbs {
+  position: fixed; top: var(--nav-height, 90px); left: 0; right: 0; z-index: 99;
+  margin: 0; background: var(--color-sage);
+  padding: 9px max(var(--gut), calc((100vw - var(--maxw)) / 2 + var(--gut)));
+  color: var(--color-ink);
+  transition: transform 0.3s var(--ease-out, ease);
+}
+.lr .lr-crumbs li::after { color: rgba(26, 34, 25, 0.45); }
+.lr .lr-crumbs a { color: var(--color-ink); }
+.lr .lr-crumbs a:hover, .lr .lr-crumbs a:focus-visible { color: var(--color-ink); border-bottom-color: var(--color-ink); }
+.lr .lr-crumbs [aria-current="page"] { color: var(--color-forest); font-weight: 600; }
+body.nav-open .lr .lr-crumbs { visibility: hidden; }
+@media (max-width: 768px) {
+  .lr-crumbbar { height: 38px; }
+  .lr .lr-crumbs { padding: 8px var(--gut); }
+  .lr .lr-crumbs ol { flex-wrap: nowrap; overflow: hidden; white-space: nowrap; }
+  .lr .lr-crumbs li:last-child { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+  .site-nav.scrolled ~ main .lr-crumbs { transform: translateY(-100%); }
+}
