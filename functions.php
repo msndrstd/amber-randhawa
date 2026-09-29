@@ -961,3 +961,20 @@ add_action( 'do_favicon', function () {
     wp_redirect( get_template_directory_uri() . '/assets/icons/favicon.ico', 301 );
     exit;
 }, 1 );
+
+/**
+ * /llms.txt, 2026-09-29. Plain-text site guide for AI assistants
+ * (llmstxt.org). Content lives in the theme's llms.txt so it deploys with
+ * the theme; edit that file, not this hook.
+ */
+add_action( 'parse_request', function () {
+    $path = trim( (string) parse_url( $_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH ), '/' );
+    if ( 'llms.txt' !== $path ) { return; }
+    $file = get_template_directory() . '/llms.txt';
+    if ( ! is_readable( $file ) ) { return; }
+    status_header( 200 );
+    header( 'Content-Type: text/plain; charset=utf-8' );
+    header( 'X-Robots-Tag: noindex' );
+    readfile( $file );
+    exit;
+}, 0 );
