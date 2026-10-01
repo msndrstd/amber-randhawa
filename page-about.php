@@ -34,7 +34,6 @@ $find = function ( array $names ) use ( $img_dir, $img_uri ) {
 // the new shoot lands, drop the files in under these names and both slots
 // fill themselves. Until then the writing takes the full column, which is
 // better than featuring a photo the client has rejected.
-$portrait  = $find( [ 'amber-portrait.jpg', 'amber-portrait.webp', 'portrait.jpg' ] );
 $local_img = $find( [ 'local.jpg', 'land.jpg', 'georgia.jpg' ] );
 $band      = $find( [ 'band-about-1800.jpg' ] );
 $band_sm   = $find( [ 'band-about-1000.jpg' ] );
@@ -64,13 +63,9 @@ $trail = [
         <p>I know this land the way you only can when you grow up on it. I know which berries are safe to eat, which snakes to leave alone, and how to read the sun to tell how long I have to get home before dark. I know the crimes, the church fires, the family feuds, and the ghost stories. And I will tell you every one of them if you sit still long enough.</p>
       </div>
       <div class="lr-rt5 lr-rise">
-        <?php if ( $portrait ) : ?>
-          <img class="lr-portrait" src="<?php echo esc_url( $portrait ); ?>" alt="Amber Randhawa" loading="lazy" decoding="async">
-        <?php else : ?>
-          <?php get_template_part( 'template-parts/slot', null, [
-              'file' => 'amber-portrait.jpg', 'label' => 'Amber, from the new shoot', 'alt' => 'Amber Randhawa',
-          ] ); ?>
-        <?php endif; ?>
+        <?php get_template_part( 'template-parts/slot', null, [
+            'file' => 'about-work.jpg', 'label' => 'At work, or on a porch', 'alt' => '',
+        ] ); ?>
       </div>
     </div>
   </section>
@@ -105,11 +100,6 @@ $trail = [
         <p>(No, I&rsquo;m not joking about that second part. It&rsquo;s a recession-proof industry after all!)</p>
         <p>I spent two and a half decades in jobs so hard to explain that my own family could not tell you what I did for a living. Background investigations. Technical writing. Anti-money laundering investigations for a Big Four accounting firm. I was everyone&rsquo;s Chandler Bing. A transponster, if you will.</p>
         <p>Then the layoff made the decision for me. Instead of updating my resume, I finally did what my husband had been telling me to do for twenty years. My biggest goal in life now is to never have to log into Linked In again.</p>
-      </div>
-      <div class="lr-rt4 lr-rise">
-        <?php get_template_part( 'template-parts/slot', null, [
-            'file' => 'about-work.jpg', 'label' => 'At work, or on a porch', 'alt' => '',
-        ] ); ?>
       </div>
     </div>
   </section>
