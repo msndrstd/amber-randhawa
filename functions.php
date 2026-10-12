@@ -700,7 +700,7 @@ add_filter( 'pre_get_document_title', function ( $title ) {
 
 /** noindex thin archives (tags, authors, dates, search) but keep following links. */
 add_filter( 'wp_robots', function ( $robots ) {
-    if ( is_tag() || is_author() || is_date() || is_search() ) {
+    if ( is_tag() || is_author() || is_date() || is_search() || ( is_category() && ! is_category( 'writing' ) ) ) {
         $robots['noindex'] = true;
         $robots['follow']  = true;
     }
@@ -715,6 +715,28 @@ add_filter( 'wp_sitemaps_taxonomies', function ( $tax ) {
     unset( $tax['post_tag'] );
     return $tax;
 } );
+
+/** Sitemap: of the categories, only Writing (/writing/) is a real page. */
+add_filter( 'wp_sitemaps_taxonomies_query_args', function ( $args, $taxonomy ) {
+    if ( 'category' === $taxonomy && ar_writing_cat_id() ) {
+        $args['include'] = [ ar_writing_cat_id() ];
+    }
+    return $args;
+}, 10, 2 );
+
+/** Canonical for the two listing pages (WordPress only prints one on single posts and pages). */
+add_action( 'wp_head', function () {
+    $url = '';
+    if ( is_home() ) {
+        $url = get_permalink( get_option( 'page_for_posts' ) );
+    } elseif ( is_category( 'writing' ) ) {
+        $url = home_url( '/writing/' );
+    }
+    if ( ! $url ) { return; }
+    $paged = (int) get_query_var( 'paged' );
+    if ( $paged > 1 ) { $url = trailingslashit( $url ) . 'page/' . $paged . '/'; }
+    echo '<link rel="canonical" href="' . esc_url( $url ) . '" />' . "\n";
+}, 1 );
 
 /** Best image for a URL preview: featured, then the page's header band, then her portrait. */
 function ar_share_image() {
